@@ -2093,6 +2093,33 @@ font-size:16px;
 
 
 }
+.main-layout{
+
+    display:flex;
+
+    gap:25px;
+
+    max-width:1400px;
+
+    margin:20px auto;
+
+    align-items:flex-start;
+
+}
+
+.left-panel{
+
+    width:300px;
+
+    flex-shrink:0;
+
+}
+
+.right-panel{
+
+    flex:1;
+
+}    
 </style>
 <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
@@ -2157,7 +2184,9 @@ Hệ thống tra cứu thuốc nội bộ kết hợp AI Gemini
 <!-- CỘT TRÁI QR -->
 <div class="left-column">
 
+<div class="main-layout">
 
+    <div class="left-panel">
     <div class="qr-box-side" id="qr-area">
 
 <h3>TRUY CẬP WEBSITE</h3>
@@ -2209,7 +2238,9 @@ alt="Website bệnh viện">
     <div id="drugHistoryList">
 
     </div>
+     </div>
 
+    <div class="right-panel">
 
 </div>
 
@@ -3403,5 +3434,8 @@ Liên hệ
 
 
 </nav>
+</div>
+
+</div>    
 </body>
 </html>
