@@ -2119,6 +2119,28 @@ font-size:16px;
 
     flex:1;
 
+}
+header{
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+/* trạng thái thu nhỏ */
+header.shrink{
+    padding: 8px 10px;
+    min-height: 70px;
+}
+
+header.shrink h1{
+    font-size: 16px;
+}
+
+header.shrink .logo img{
+    width: 55px;
+    height: 55px;
 }    
 </style>
 <link rel="icon" type="image/png" href="images/favicon.png">
@@ -3404,6 +3426,15 @@ async function askAI() {
     }
 
 }
+window.addEventListener("scroll", function () {
+    const header = document.querySelector("header");
+
+    if (window.scrollY > 80) {
+        header.classList.add("shrink");
+    } else {
+        header.classList.remove("shrink");
+    }
+});
 </script>
 <!-- MOBILE APP MENU -->
 
