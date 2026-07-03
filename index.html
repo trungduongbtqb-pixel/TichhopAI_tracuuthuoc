@@ -309,17 +309,20 @@ button{
 
     align-items:start;
 
+    position:relative;
+    
+    z-index:2;
+
 }
 .left-column{
-    flex:2;
+    
 }
 
 .center-column{
-    flex:5;
-}
+    
 
 .right-column{
-    flex:3;
+  
 }
 
 .hospital-box{
@@ -359,14 +362,17 @@ button{
 .qr-box-side img{
     width:180px;
 }
-
 @media(max-width:768px){
 
     .main-layout{
+        display:flex;
         flex-direction:column;
+        gap:20px;
+        padding:15px;
     }
 
     .left-column,
+    .center-column,
     .right-column{
         width:100%;
     }
@@ -517,9 +523,6 @@ button{
 
 /* ===== CHẾ ĐỘ MÁY TÍNH ===== */
 
-.desktop-view .main-layout{
-    flex-direction:row;
-}
 
 /* ===== CHẾ ĐỘ ĐIỆN THOẠI ===== */
 
@@ -800,331 +803,10 @@ body{
 /* ===== LÀM MỜ KHUNG NỘI DUNG HỢP VỚI BACKGROUND 3 ===== */
 
 
-.main-layout{
 
-    position:relative;
-    z-index:2;
-
-}
 /* ===========================
    TỐI ƯU GIAO DIỆN ĐIỆN THOẠI
    =========================== */
-
-@media(max-width:768px){
-
-
-/* Toàn trang */
-
-body{
-    width:100%;
-    overflow-x:hidden;
-}
-
-
-/* Header */
-
-header{
-
-    padding:15px 10px 20px;
-
-    min-height:auto;
-
-}
-
-
-.logo{
-
-    position:static;
-
-    margin-bottom:10px;
-
-}
-
-
-.logo img{
-
-    width:70px;
-    height:70px;
-
-}
-
-
-header h1{
-
-    font-size:18px;
-
-    line-height:1.4;
-
-    padding:0 10px;
-
-}
-
-
-/* Nút chuyển giao diện */
-
-.view-switcher{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-}
-
-
-.view-switcher button{
-
-    width:90%;
-
-    margin:5px auto;
-
-}
-
-
-
-/* Dark mode button */
-
-#themeBtn{
-
-    position:static;
-
-    margin-top:10px;
-
-}
-
-
-
-/* Banner */
-
-.banner{
-
-    min-height:0;
-
-    padding:15px 10px;
-
-}
-
-
-.banner-content{
-
-    min-width:0;
-
-    width:100%;
-
-    padding:20px 15px;
-
-}
-
-
-.banner-content h2{
-
-    font-size:22px;
-
-    line-height:1.4;
-
-}
-
-
-.banner-content p,
-.banner-content li{
-
-    font-size:15px;
-
-    line-height:1.6;
-
-}
-
-
-
-/* Layout chính */
-
-
-
-
-.left-column,
-.center-column,
-.right-column{
-
-    width:100%;
-
-}
-
-
-
-/* QR */
-
-.qr-box-side{
-
-    padding:15px;
-
-}
-
-
-.qr-box-side img{
-
-    width:150px;
-
-}
-
-
-
-/* Khung nội dung */
-
-.section,
-.hospital-box{
-
-    padding:15px;
-
-    margin:0;
-
-    width:100%;
-
-}
-
-
-
-/* Tiêu đề */
-
-.section-title{
-
-    font-size:17px;
-
-    text-align:center;
-
-}
-
-
-
-/* Ô tìm kiếm */
-
-.search-box{
-
-    display:flex;
-
-    flex-direction:column;
-
-}
-
-
-input[type=text]{
-
-
-    width:100%;
-
-    font-size:16px;
-
-    padding:12px;
-
-}
-
-
-.search-box button{
-
-    width:100%;
-
-}
-
-
-
-/* Gợi ý tìm kiếm */
-
-
-.suggestion-box{
-
-    display:flex;
-
-    flex-direction:column;
-
-}
-
-
-.suggestion-item{
-
-    width:100%;
-
-    text-align:center;
-
-}
-
-
-
-/* Bảng thông tin thuốc */
-
-
-.result{
-
-    width:100%;
-
-    overflow-x:auto;
-
-}
-
-
-table{
-
-    min-width:650px;
-
-    font-size:14px;
-
-}
-
-
-
-/* Hình bệnh viện */
-
-
-.hospital-box img{
-
-    height:180px;
-
-}
-
-
-.hospital-content{
-
-    text-align:center;
-
-}
-
-
-.hospital-content h3{
-
-    font-size:17px;
-
-}
-
-
-/* Ảnh động */
-
-
-.drug-banner-animation{
-
-    height:120px;
-
-}
-
-
-.drug-banner-animation img{
-
-    object-fit:cover;
-
-}
-
-
-
-/* Footer */
-
-footer{
-
-    font-size:14px;
-
-    padding:15px;
-
-}
-
-
-}
 
 
 /* Điện thoại nhỏ 320-390px */
@@ -1289,9 +971,13 @@ display:none;
 
 width:100%;
 
-padding:10px;
+padding:15px;
 
-display:block;
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
 
 }
 
@@ -1307,14 +993,6 @@ width:100%;
 
 
 
-/* Ẩn ảnh phụ để ưu tiên tra cứu */
-
-
-.right-column{
-
-display:none;
-
-}
 
 
 
@@ -1441,43 +1119,16 @@ overflow:hidden;
 
 
 
-.result table{
-
-min-width:100%;
-
-}
 
 
 
-.result table tr{
-
-display:block;
-
-margin-bottom:10px;
-
-}
 
 
 
-.result th{
-
-display:block;
-
-font-size:14px;
-
-}
 
 
 
-.result td{
 
-display:block;
-
-background:white;
-
-line-height:1.5;
-
-}
 
 
 
@@ -1486,10 +1137,13 @@ line-height:1.5;
 
 .drug-banner-animation{
 
-display:none;
+display:block;
+
+height:160px;
+
+margin:20px auto;
 
 }
-
 
 
 /* =====================
@@ -1617,7 +1271,7 @@ display:none;
 
 
 
-@media(max-width:768px){
+
 
 
 
@@ -2404,12 +2058,7 @@ alt="Website bệnh viện">
 
 <!-- ẢNH ĐỘNG DƯỚI THANH TÌM KIẾM -->
 
-<div class="drug-banner-animation">
 
-    <img src="images/anhdong.gif"
-    alt="Tra cứu thuốc">
-
-</div>
 <div class="section">
 
 <h2 class="section-title">
@@ -2528,13 +2177,15 @@ Chuyên nghiệp - Tận tâm - Hiệu quả.
 </div>
 
 
-</div>
-
-
 </div>      <!-- right-column -->
 
 </div>      <!-- main-layout -->
+<div class="drug-banner-animation">
 
+    <img src="images/anhdong.gif"
+    alt="Tra cứu thuốc">
+
+</div>
 <footer>
     © 2025 Bệnh viện Đa khoa Bố Trạch - Quảng Trị
 </footer>
