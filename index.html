@@ -2263,6 +2263,12 @@ header.shrink .logo img{
 
     transform:translateY(-2px);
 
+}   
+.result-box{
+
+    margin-top:20px;
+    padding:10px;
+
 }    
 </style>
 <link rel="icon" type="image/png" href="images/favicon.png">
@@ -2424,17 +2430,18 @@ alt="Website bệnh viện">
 
     <div class="search-box">
 
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Nhập tên thuốc...">
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Nhập tên thuốc..."
+        autocomplete="off">
 
-        <button onclick="searchAll()">
-            🔍 Tra cứu
-        </button>
+    <button onclick="searchUnified()">
+        🔍 Tra cứu
+    </button>
 
-    </div>
-
+</div>
+<div id="searchResult" class="result-box"></div>
     <div id="commonSuggestions"
          class="suggestion-box">
     </div>
@@ -3304,7 +3311,96 @@ result.innerHTML="Không tìm thấy thuốc.";
 }
 
 }
+function searchUnified(){
 
+    const keyword =
+    document.getElementById("searchInput")
+    .value
+    .trim()
+    .toLowerCase();
+
+    if(keyword === "") return;
+
+    let resultDiv =
+    document.getElementById("searchResult");
+
+    let results = [];
+
+    if(searchMode === "drug"){
+
+        results = drugDatabase.filter(item =>
+            (item["Tên thuốc"] || "")
+            .toLowerCase()
+            .includes(keyword)
+        );
+
+    }
+
+    if(searchMode === "active"){
+
+        results = drugDatabase.filter(item =>
+            (item["Tên hoạt chất - HL"] || "")
+            .toLowerCase()
+            .includes(keyword)
+        );
+
+    }
+
+    if(searchMode === "atc"){
+
+        results = drugDatabase.filter(item =>
+            (item["Mã ATC"] || "")
+            .toLowerCase()
+            .includes(keyword)
+        );
+
+    }
+
+    if(results.length > 0){
+
+        resultDiv.style.display = "block";
+
+        resultDiv.innerHTML =
+        createDrugList(results);
+
+    } else {
+
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = "❌ Không tìm thấy kết quả";
+
+    }
+}
+function setSearchMode(mode, btn){
+
+    searchMode = mode;
+
+    document.querySelectorAll(".tab-btn")
+        .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    const input = document.getElementById("searchInput");
+
+    if(mode === "drug"){
+        input.placeholder = "Nhập tên thuốc...";
+    }
+
+    if(mode === "active"){
+        input.placeholder = "Nhập hoạt chất...";
+    }
+
+    if(mode === "atc"){
+        input.placeholder = "Nhập mã ATC...";
+    }
+}
+document.getElementById("searchInput")
+.addEventListener("keypress", function(e){
+
+    if(e.key === "Enter"){
+        searchUnified();
+    }
+
+});    
 // Tự nhận diện thiết bị
 function toggleTheme(){
 
@@ -3439,27 +3535,64 @@ box.appendChild(div);
 
 
 // ATC
-createSuggest(
-"atcInput",
-"atcSuggestions",
-"Mã ATC"
-);
+function createUnifiedSuggest(field){
 
+const input = document.getElementById("searchInput");
+const box = document.getElementById("commonSuggestions");
 
-// Hoạt chất
-createSuggest(
-"activeInput",
-"activeSuggestions",
-"Tên hoạt chất - HL"
-);
+input.addEventListener("input", function(){
 
+let keyword = this.value.trim().toLowerCase();
 
-// Tên thuốc
-createSuggest(
-"drugNameInput",
-"drugSuggestions",
-"Tên thuốc"
-);
+box.innerHTML = "";
+
+if(keyword === "") return;
+
+let result = [
+    ...new Set(
+        drugDatabase
+        .filter(item =>
+            (item[field] || "")
+            .toLowerCase()
+            .includes(keyword)
+        )
+        .map(item => item[field])
+    )
+].slice(0,6);
+
+result.forEach(item => {
+
+let div = document.createElement("div");
+div.className = "suggestion-item";
+div.innerText = item;
+
+div.onclick = function(){
+    input.value = item;
+    box.innerHTML = "";
+};
+
+box.appendChild(div);
+
+});
+
+});
+}
+    function initSuggest(){
+
+if(searchMode === "drug"){
+    createUnifiedSuggest("Tên thuốc");
+}
+
+if(searchMode === "active"){
+    createUnifiedSuggest("Tên hoạt chất - HL");
+}
+
+if(searchMode === "atc"){
+    createUnifiedSuggest("Mã ATC");
+}
+
+}
+    initSuggest();
 async function askAI() {
 
     const question = document.getElementById("aiQuestion").value.trim();
