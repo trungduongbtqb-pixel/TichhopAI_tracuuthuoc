@@ -3054,74 +3054,38 @@ JSON.stringify(history)
 // =============================
 
 
-function showDrugHistory(){
+function showDrugHistory() {
 
+    const box = document.getElementById("drugHistoryList");
 
-let box =
-document.getElementById(
-"drugHistoryList"
-);
+    if (!box) return;
 
+    const history =
+        JSON.parse(localStorage.getItem("drugHistory")) || [];
 
+    window.historyDrugList = history;
 
-if(!box) return;
+    if (history.length === 0) {
+        box.innerHTML = "Chưa có thuốc đã xem";
+        return;
+    }
 
+    box.innerHTML = "";
 
+    history.forEach((drug, index) => {
 
-let history =
-JSON.parse(
+        const div = document.createElement("div");
+        div.className = "history-item";
 
-localStorage.getItem("drugHistory")
+        div.innerText = "💊 " + drug["Tên thuốc"];
 
-)
-|| [];
+        div.onclick = function () {
+            showDrug(drug);
+        };
 
+        box.appendChild(div);
 
-
-box.innerHTML="";
-
-
-
-if(history.length===0){
-
-
-box.innerHTML =
-"Chưa có thuốc đã xem";
-
-
-return;
-
-
-}
-
-
-
-history.forEach((drug,index)=>{
-
-
-box.innerHTML += `
-
-
-<div class="history-item"
-onclick="openHistoryDrug(${index})">
-
-
-💊 ${drug["Tên thuốc"]}
-
-
-</div>
-
-
-`;
-
-
-});
-
-
-
-window.historyDrugList = history;
-
-
+    });
 }
 function openHistoryDrug(index){
 
@@ -3138,20 +3102,21 @@ function toggleTheme(){
     document.body.classList.toggle("dark-mode");
 
 }
-function detectDevice(){
+function detectDevice() {
 
-    if(window.innerWidth <= 768){
+    const body = document.body;
 
-        document.body.classList.add("mobile-view");
-        document.body.classList.remove("desktop-view");
+    if (window.innerWidth <= 768) {
 
-    }else{
+        body.classList.add("mobile-view");
+        body.classList.remove("desktop-view");
 
-        document.body.classList.add("desktop-view");
-        document.body.classList.remove("mobile-view");
+    } else {
+
+        body.classList.add("desktop-view");
+        body.classList.remove("mobile-view");
 
     }
-
 }
 
 detectDevice();
@@ -3194,7 +3159,14 @@ window.onload = function(){
         setDesktopView();
 
     }
+document.getElementById("searchInput")
+.addEventListener("keydown", function(e){
 
+    if (e.key === "Enter") {
+        searchAll();
+    }
+
+});
 };
 // =============================
 // SEARCH V2
@@ -3258,50 +3230,37 @@ function searchAll() {
         field = "Mã ATC";
 
     const drugs = drugDatabase.filter(item =>
-
         (item[field] || "")
             .toLowerCase()
             .includes(keyword)
-
     );
 
     result.style.display = "block";
 
     if (drugs.length === 0) {
 
-        result.innerHTML =
-            "<h3>❌ Không tìm thấy thuốc.</h3>";
-
+        result.innerHTML = "<h3>❌ Không tìm thấy thuốc.</h3>";
         return;
     }
+
+    // 🔥 luôn sync data
+    window.searchResults = drugs;
 
     if (drugs.length === 1) {
 
         showDrug(drugs[0]);
-
         return;
     }
 
     result.innerHTML = createDrugList(drugs);
-
-    window.searchResults = drugs;
-
 }
-
-
-
 
     // ===== GỢI Ý NGANG TỐI ĐA 6 KẾT QUẢ =====
 
 
-const input =
-document.getElementById(inputId);
-
-const box =
-document.getElementById(boxId);
 
 
-input.addEventListener("input",function(){
+let suggestBound = false;
 
 function initSuggest() {
 
@@ -3309,6 +3268,9 @@ function initSuggest() {
     const box = document.getElementById("commonSuggestions");
 
     if (!input || !box) return;
+
+    if (suggestBound) return;
+    suggestBound = true;
 
     input.addEventListener("input", function () {
 
@@ -3323,29 +3285,41 @@ function initSuggest() {
 
         let field = "Tên thuốc";
 
-        if (searchMode === "active") field = "Tên hoạt chất - HL";
-        if (searchMode === "atc") field = "Mã ATC";
+        if (searchMode === "active")
+            field = "Tên hoạt chất - HL";
 
-        const result = [...new Set(
-            drugDatabase
-                .filter(item =>
-                    (item[field] || "").toLowerCase().includes(keyword)
-                )
-                .map(item => item[field])
-        )].slice(0, 6);
+        if (searchMode === "atc")
+            field = "Mã ATC";
 
-        result.forEach(item => {
+        const results = drugDatabase
+            .filter(item =>
+                (item[field] || "")
+                    .toLowerCase()
+                    .includes(keyword)
+            )
+            .map(item => item[field]);
+
+        const unique = [...new Set(results)].slice(0, 6);
+
+        if (unique.length === 0) {
+            box.style.display = "none";
+            return;
+        }
+
+        unique.forEach(text => {
 
             const div = document.createElement("div");
-
             div.className = "suggestion-item";
-            div.innerText = item;
+            div.innerText = text;
 
             div.onclick = function () {
 
-                input.value = item;
+                input.value = text;
+
                 box.innerHTML = "";
                 box.style.display = "none";
+
+                searchAll();
 
             };
 
@@ -3353,13 +3327,10 @@ function initSuggest() {
 
         });
 
-        box.style.display = result.length ? "block" : "none";
+        box.style.display = "block";
 
     });
-
 }
-
-
 
 async function askAI() {
 
@@ -3443,7 +3414,21 @@ function setSearchMode(mode,btn){
     }
 
 }    
-   
+document.addEventListener("DOMContentLoaded", () => {
+
+    const input = document.getElementById("searchInput");
+
+    if (!input) return;
+
+    input.addEventListener("keydown", function (e) {
+
+        if (e.key === "Enter") {
+            searchAll();
+        }
+
+    });
+
+});   
 </script>
 <!-- MOBILE APP MENU -->
 
