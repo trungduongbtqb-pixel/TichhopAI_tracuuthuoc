@@ -217,21 +217,42 @@ button:hover{
 }
 
 table{
+
     width:100%;
+
     border-collapse:collapse;
-    margin-top:15px;
+
+    margin-top:0;
+
+    overflow:hidden;
+
+    border-radius:0 0 12px 12px;
+
 }
 
 table th, table td{
     border:1px solid #ddd;
     padding:10px;
 }
-
-table th{
-    background:#00796b;
-    color:white;
+table td{
+    line-height:1.7;
 }
+table th{
 
+    background:#e8f5f4;
+
+    color:#00695c;
+
+    width:220px;
+
+    text-align:left;
+
+}
+table tr:hover{
+
+    background:#f7fffd;
+
+}
 .high-risk{
     background:#fff3cd;
     border-left:6px solid #ff9800;
@@ -2173,6 +2194,33 @@ header.shrink .logo img{
     width: 55px;
     height: 55px;
 }   
+.result-header{
+
+    background:linear-gradient(135deg,#009688,#00695c);
+
+    color:white;
+
+    padding:18px;
+
+    border-radius:12px 12px 0 0;
+
+}
+
+.result-header h2{
+
+    margin:0;
+
+    font-size:24px;
+
+}
+
+.result-header p{
+
+    margin-top:8px;
+
+    opacity:.9;
+
+}
 </style>
 <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
@@ -2638,6 +2686,14 @@ drugDatabase.length,
 function createTable(drug){
 
 return `
+
+<div class="result-header">
+
+<h2>💊 ${drug["Tên thuốc"] || ""}</h2>
+
+<p>${drug["Tên hoạt chất - HL"] || ""}</p>
+
+</div>
 
 <table>
 
