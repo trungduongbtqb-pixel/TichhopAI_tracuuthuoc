@@ -2932,8 +2932,7 @@ results.forEach((drug,index)=>{
 html+=`
 
 <div class="drug-mini-card"
-onclick="showDrug(${index})">
-
+onclick="showDrug(window.searchResults[${index}])"
 
 <h3>
 💊 ${drug["Tên thuốc"]}
@@ -2967,36 +2966,30 @@ return html;
 
 
 }
-function showDrug(index){
+function showDrug(drug) {
 
+    if (!drug) return;
 
-let drug =
-window.searchResults[index];
+    saveDrugHistory(drug);
 
-saveDrugHistory(drug);
-let result =
-document.getElementById("drugNameResult");
+    showDrugHistory();
 
+    const result =
+        document.getElementById("searchResult");
 
-result.style.display="block";
+    result.style.display = "block";
 
+    if (window.innerWidth <= 768) {
 
-if(window.innerWidth <= 768){
+        result.innerHTML =
+            createDrugCard(drug);
 
+    } else {
 
-result.innerHTML =
-createDrugCard(drug);
+        result.innerHTML =
+            createTable(drug);
 
-
-}else{
-
-
-result.innerHTML =
-createTable(drug);
-
-
-}
-
+    }
 
 }
 // =============================
@@ -3132,176 +3125,12 @@ window.historyDrugList = history;
 }
 function openHistoryDrug(index){
 
+    const drug = window.historyDrugList[index];
 
-let drug =
-window.historyDrugList[index];
-
-
-
-let result =
-document.getElementById(
-"drugNameResult"
-);
-
-
-
-result.style.display="block";
-
-
-
-if(window.innerWidth <= 768){
-
-
-result.innerHTML =
-createDrugCard(drug);
-
-
-
-}else{
-
-
-result.innerHTML =
-createTable(drug);
-
+    showDrug(drug);
 
 }
 
-
-}
-function searchDrugName(){
-
-
-let keyword =
-document.getElementById("searchInput")
-.value
-.trim()
-.toLowerCase();
-
-
-let resultDiv =
-document.getElementById("searchResult");
-
-
-let results =
-drugDatabase.filter(item =>
-
-
-(item["Tên thuốc"] || "")
-.toLowerCase()
-.includes(keyword)
-
-
-);
-
-
-
-if(results.length > 0){
-
-
-resultDiv.style.display="block";
-
-
-resultDiv.innerHTML =
-createDrugList(results);
-
-
-
-}else{
-
-
-resultDiv.style.display="block";
-
-
-resultDiv.innerHTML =
-"Không tìm thấy thuốc";
-
-
-}
-
-
-}
-function searchATC(){
-
-let keyword =
-document.getElementById("searchInput")
-.value
-.trim()
-.toLowerCase();
-
-let result =
-document.getElementById("searchResult")
-let drug =
-drugDatabase.find(item =>
-
-(item["Mã ATC"] || "")
-.toLowerCase()
-=== keyword
-
-);
-
-if(drug){
-
-result.style.display="block";
-if(window.innerWidth <= 768){
-
-    result.innerHTML=createDrugCard(drug);
-
-}else{
-
-    result.innerHTML=createTable(drug);
-
-}
-
-}else{
-
-result.style.display="block";
-result.innerHTML="Không tìm thấy thuốc.";
-
-}
-
-}
-
-function searchActive(){
-
-let keyword =
-document.getElementById("searchInput")
-.value
-.trim()
-.toLowerCase();
-
-let result =
-document.getElementById("searchResult")
-
-let drug =
-drugDatabase.find(item =>
-
-(item["Tên hoạt chất - HL"] || "")
-.toLowerCase()
-.includes(keyword)
-
-);
-
-if(drug){
-
-result.style.display="block";
-if(window.innerWidth <= 768){
-
-    result.innerHTML=createDrugCard(drug);
-
-}else{
-
-    result.innerHTML=createTable(drug);
-
-}
-
-}else{
-
-result.style.display="block";
-result.innerHTML="Không tìm thấy thuốc.";
-
-}
-
-}
 
 // Tự nhận diện thiết bị
 function toggleTheme(){
@@ -3367,7 +3196,102 @@ window.onload = function(){
     }
 
 };
-// ===== GỢI Ý NGANG TỐI ĐA 6 KẾT QUẢ =====
+// =============================
+// SEARCH V2
+// =============================
+
+let searchMode = "drug";
+
+function setSearchMode(mode, btn) {
+
+    searchMode = mode;
+
+    document
+        .querySelectorAll(".tab-btn")
+        .forEach(b => b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    const input = document.getElementById("searchInput");
+
+    if (mode === "drug")
+        input.placeholder = "Nhập tên thuốc...";
+
+    if (mode === "active")
+        input.placeholder = "Nhập hoạt chất...";
+
+    if (mode === "atc")
+        input.placeholder = "Nhập mã ATC...";
+
+    input.focus();
+
+    document.getElementById("commonSuggestions").innerHTML = "";
+}
+
+
+
+function searchAll() {
+
+    const keyword =
+        document
+            .getElementById("searchInput")
+            .value
+            .trim()
+            .toLowerCase();
+
+    const result =
+        document.getElementById("searchResult");
+
+    if (keyword === "") {
+
+        result.style.display = "block";
+        result.innerHTML = "⚠️ Vui lòng nhập nội dung cần tra cứu.";
+        return;
+    }
+
+    let field = "Tên thuốc";
+
+    if (searchMode === "active")
+        field = "Tên hoạt chất - HL";
+
+    if (searchMode === "atc")
+        field = "Mã ATC";
+
+    const drugs = drugDatabase.filter(item =>
+
+        (item[field] || "")
+            .toLowerCase()
+            .includes(keyword)
+
+    );
+
+    result.style.display = "block";
+
+    if (drugs.length === 0) {
+
+        result.innerHTML =
+            "<h3>❌ Không tìm thấy thuốc.</h3>";
+
+        return;
+    }
+
+    if (drugs.length === 1) {
+
+        showDrug(drugs[0]);
+
+        return;
+    }
+
+    result.innerHTML = createDrugList(drugs);
+
+    window.searchResults = drugs;
+
+}
+
+
+
+
+    // ===== GỢI Ý NGANG TỐI ĐA 6 KẾT QUẢ =====
 
 
 const input =
@@ -3519,21 +3443,7 @@ function setSearchMode(mode,btn){
     }
 
 }    
-    function searchAll(){
-
-    if(searchMode==="drug"){
-        searchDrugName();
-    }
-
-    if(searchMode==="active"){
-        searchActive();
-    }
-
-    if(searchMode==="atc"){
-        searchATC();
-    }
-
-}
+   
 </script>
 <!-- MOBILE APP MENU -->
 
