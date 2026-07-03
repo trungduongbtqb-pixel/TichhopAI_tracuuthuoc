@@ -3356,38 +3356,30 @@ window.addEventListener("scroll", function () {
 });
 var searchMode="drug";
 
-function setSearchMode(mode,btn){
+function setSearchMode(mode, btn) {
 
-    searchMode=mode;
+    searchMode = mode;
 
     document
-    .querySelectorAll(".tab-btn")
-    .forEach(item=>item.classList.remove("active"));
+        .querySelectorAll(".tab-btn")
+        .forEach(item => item.classList.remove("active"));
 
     btn.classList.add("active");
 
-    const input=
-    document.getElementById("searchInput");
+    const input =
+        document.getElementById("searchInput");
 
-    if(mode==="drug"){
+    if (mode === "drug")
+        input.placeholder = "Nhập tên thuốc...";
 
-        input.placeholder="Nhập tên thuốc...";
+    if (mode === "active")
+        input.placeholder = "Nhập hoạt chất...";
 
-    }
+    if (mode === "atc")
+        input.placeholder = "Nhập mã ATC...";
 
-    if(mode==="active"){
-
-        input.placeholder="Nhập hoạt chất...";
-
-    }
-
-    if(mode==="atc"){
-
-        input.placeholder="Nhập mã ATC...";
-
-    }
-
-}    
+    document.getElementById("commonSuggestions").innerHTML = "";
+}
 document.addEventListener("DOMContentLoaded", () => {
 
     const input = document.getElementById("searchInput");
