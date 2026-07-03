@@ -294,12 +294,21 @@ button{
 /* ===== GIAO DIỆN 2 CỘT ===== */
 
 .main-layout{
-    width:95%;
+
     max-width:1400px;
-    margin:20px auto;
-    display:flex;
-    gap:20px;
-    align-items:flex-start;
+
+    margin:25px auto;
+
+    padding:0 20px;
+
+    display:grid;
+
+    grid-template-columns:260px 1fr 320px;
+
+    gap:25px;
+
+    align-items:start;
+
 }
 
 .left-column{
@@ -2135,31 +2144,22 @@ font-size:16px;
 }
 .main-layout{
 
-    display:flex;
+    max-width:1400px;
+
+    margin:25px auto;
+
+    padding:0 20px;
+
+    display:grid;
+
+    grid-template-columns:260px 1fr 320px;
 
     gap:25px;
 
-    max-width:1400px;
-
-    margin:20px auto;
-
-    align-items:flex-start;
+    align-items:start;
 
 }
 
-.left-panel{
-
-    width:300px;
-
-    flex-shrink:0;
-
-}
-
-.right-panel{
-
-    flex:1;
-
-}
 header{
     position: sticky;
     top: 0;
@@ -2328,10 +2328,8 @@ Hệ thống tra cứu thuốc nội bộ kết hợp AI Gemini
 <!-- CỘT TRÁI QR -->
 <div class="left-column">
 
-<div class="main-layout">
 
-    <div class="left-panel">
-    <div class="qr-box-side" id="qr-area">
+<div class="qr-box-side" id="qr-area">
 
 <h3>TRUY CẬP WEBSITE</h3>
 
@@ -2384,9 +2382,7 @@ alt="Website bệnh viện">
     </div>
      </div>
 
-    <div class="right-panel">
-
-</div>
+  
 
 </div>
 
