@@ -6,19 +6,21 @@
 <title>Tra cứu thuốc - BVĐK Bố Trạch Quảng Trị</title>
 
 <style>
+/* --- 1. CSS GIAO DIỆN NỀN TẢNG & MÁY TÍNH --- */
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Segoe UI', Arial, Helvetica, sans-serif;
+    font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 }
 
 body{
-    background: linear-gradient(rgba(245,252,252,0.85), rgba(245,252,252,0.85)), url("images/bg-content.jpg");
+    background: linear-gradient(rgba(245,252,252,0.9), rgba(245,252,252,0.9)), url("images/bg-content.jpg");
     background-size:cover;
     background-attachment:fixed;
     background-position:center;
     color:#2c3e50;
+    transition: background 0.3s, color 0.3s;
 }
 
 header{
@@ -35,6 +37,7 @@ header{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: all 0.3s ease;
 }
 
 .logo{
@@ -50,13 +53,14 @@ header{
     background:white;
     border-radius:50%;
     padding:6px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 header h1{
     font-size: 26px;
     margin-bottom:5px;
     letter-spacing: 0.5px;
+    font-weight: 700;
 }
 
 .sub-title{
@@ -73,7 +77,7 @@ header h1{
     background:#ffffff;
     border-radius:16px;
     padding:20px 30px;
-    box-shadow:0 4px 20px rgba(0,121,107,.08);
+    box-shadow:0 4px 20px rgba(0,121,107,.06);
 }
 
 .banner-content{
@@ -86,7 +90,7 @@ header h1{
 
 .banner-content h2{
     color:#fff;
-    font-size:28px;
+    font-size:26px;
     margin-bottom:10px;
     font-weight: 600;
 }
@@ -112,16 +116,17 @@ header h1{
     display:inline-block;
     white-space:nowrap;
     color:#ffeb3b;
-    font-size:16px;
+    font-size:15px;
     font-weight:bold;
-    animation:safetyMove 8s ease-in-out infinite alternate;
+    animation:safetyMove 10s ease-in-out infinite alternate;
 }
 
 @keyframes safetyMove{
-    from{ transform:translateX(-20%); }
-    to{ transform:translateX(20%); }
+    from{ transform:translateX(-15%); }
+    to{ transform:translateX(15%); }
 }
 
+/* Bố cục Grid 3 cột chuẩn Desktop chuyên nghiệp */
 .main-layout{
     max-width:1400px;
     width:95%;
@@ -139,18 +144,17 @@ header h1{
 }
 
 .section{
-    background:rgba(255,255,255,0.9);
-    backdrop-filter:blur(10px);
+    background:#ffffff;
     padding:30px;
     border-radius:16px;
-    box-shadow:0 10px 30px rgba(0,105,92,.05);
+    box-shadow:0 10px 30px rgba(0,105,92,.04);
     transition:.3s ease;
-    border: 1px solid rgba(0,121,107,0.05);
+    border: 1px solid rgba(0,121,107,0.06);
 }
 
 .section:hover{
-    transform:translateY(-4px);
-    box-shadow:0 15px 35px rgba(0,105,92,.12);
+    transform:translateY(-3px);
+    box-shadow:0 15px 35px rgba(0,105,92,.1);
 }
 
 .section-title{
@@ -161,7 +165,7 @@ header h1{
     margin-bottom:25px;
     font-size: 18px;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 10px rgba(0,121,107,0.2);
+    box-shadow: 0 4px 10px rgba(0,121,107,0.15);
 }
 
 .search-tabs{
@@ -199,6 +203,7 @@ header h1{
     gap:12px;
     flex-wrap:wrap;
     align-items:center;
+    position: relative;
 }
 
 input[type=text]{
@@ -213,7 +218,7 @@ input[type=text]{
 
 input[type=text]:focus{
     border-color:#00a884;
-    box-shadow:0 0 0 4px rgba(0,168,132,.15);
+    box-shadow:0 0 0 4px rgba(0,168,132,.1);
     outline:none;
 }
 
@@ -227,45 +232,50 @@ button.search-btn{
     font-size:16px;
     font-weight:bold;
     transition:.25s;
-    box-shadow: 0 4px 12px rgba(0,150,136,0.2);
+    box-shadow: 0 4px 12px rgba(0,150,136,0.15);
 }
 
 button.search-btn:hover{
     transform:translateY(-2px);
-    box-shadow:0 6px 18px rgba(0,105,92,.3);
+    box-shadow:0 6px 18px rgba(0,105,92,.25);
 }
 
 .suggestion-box{
-    display:flex;
-    gap:8px;
-    margin-top:12px;
-    flex-wrap:wrap;
-    width: 100%;
+    display:none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #cfe5e3;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    z-index: 10;
+    margin-top: 5px;
+    padding: 8px;
 }
 
 .suggestion-item{
-    background:#e0f2f1;
-    color:#00695c;
-    padding:6px 14px;
-    border-radius:20px;
-    cursor:pointer;
-    border:1px solid #b2dfdb;
-    font-size:13px;
-    font-weight: 500;
-    transition:0.2s;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333;
+    transition: 0.2s;
+    text-align: left;
 }
 
 .suggestion-item:hover{
-    background:#00796b;
-    color:white;
-    border-color: #00796b;
+    background:#e0f2f1;
+    color:#00695c;
 }
 
+/* Kết quả dạng Bảng cao cấp trên Desktop */
 .result{
     margin-top:25px;
     background:#ffffff;
     border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 25px rgba(0,0,0,0.04);
     border: 1px solid #e0f2f1;
     display:none;
     overflow: hidden;
@@ -275,6 +285,7 @@ button.search-btn:hover{
     background:linear-gradient(135deg,#009688,#00695c);
     color:white;
     padding:20px;
+    text-align: left;
 }
 
 .result-header h2{
@@ -296,18 +307,19 @@ table{
 
 table th, table td{
     border-bottom:1px solid #e9ecef;
-    padding:15px 20px;
+    padding:16px 20px;
 }
 
 table td{
     line-height:1.7;
-    color: #333;
+    color: #2c3e50;
+    text-align: left;
 }
 
 table th{
     background:#f8fbfb;
     color:#00695c;
-    width:200px;
+    width:220px;
     text-align:left;
     font-weight: 600;
     border-right: 1px solid #e9ecef;
@@ -325,37 +337,38 @@ table tr:hover td{
     background:#00796b;
     color:white;
     border:none;
-    padding:12px 20px;
+    padding:12px 24px;
     border-radius:8px;
     cursor:pointer;
     font-size:14px;
     font-weight: bold;
-    margin-top:5px;
+    margin: 10px 0;
     transition: all 0.2s;
 }
 
 .copy-btn:hover{
     background: #005b4f;
-    box-shadow: 0 4px 10px rgba(0,121,107,0.2);
+    box-shadow: 0 4px 12px rgba(0,121,107,0.2);
 }
 
+/* Các Box Tiện ích & Hình ảnh bên cột phụ */
 .hospital-box{
     background: white;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.04);
     transition: 0.3s;
-    border: 1px solid rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,121,107,0.05);
 }
 
 .hospital-box:hover{
     transform: translateY(-4px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
 }
 
 .hospital-box img{
     width:100%;
-    height:200px;
+    height:190px;
     object-fit:cover;
     transition:transform .4s ease;
 }
@@ -365,18 +378,19 @@ table tr:hover td{
 }
 
 .hospital-content{
-    padding:20px;
+    padding:18px;
+    text-align: left;
 }
 
 .hospital-content h3{
     color:#e01515;
-    margin-bottom:8px;
-    font-size: 16px;
+    margin-bottom:6px;
+    font-size: 15px;
     font-weight: 600;
 }
 
 .hospital-content p{
-    font-size: 14px;
+    font-size: 13.5px;
     color: #666;
 }
 
@@ -384,8 +398,9 @@ table tr:hover td{
     background:white;
     padding:25px;
     border-radius:16px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    box-shadow:0 8px 25px rgba(0,0,0,0.04);
     text-align:center;
+    border: 1px solid rgba(0,121,107,0.05);
 }
 
 .qr-box-side h3, .history-box h3{
@@ -395,10 +410,11 @@ table tr:hover td{
     padding-bottom:10px;
     margin-bottom:15px;
     text-align: left;
+    font-weight: 600;
 }
 
 .qr-box-side img{
-    width:160px;
+    width:150px;
     margin: 10px 0;
 }
 
@@ -416,22 +432,21 @@ table tr:hover td{
 }
 
 .facebook-btn, .website-btn{
-    width:50px;
-    height:50px;
+    width:46px;
+    height:46px;
     display:flex;
     justify-content:center;
     align-items:center;
     border-radius:50%;
-    overflow:hidden;
     transition:0.3s;
 }
 
 .facebook-btn{ background:#1877f2; }
-.website-btn{ background:#f0f2f5; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+.website-btn{ background:#f0f2f5; box-shadow:0 2px 5px rgba(0,0,0,0.08); }
 
 .facebook-btn img, .website-btn img{
-    width:28px;
-    height:28px;
+    width:24px;
+    height:24px;
     object-fit:contain;
 }
 
@@ -463,14 +478,14 @@ table tr:hover td{
     height:180px;
     margin-top:10px;
     overflow:hidden;
-    background:transparent !important;
 }
 
 .drug-banner-animation img{
     width:100%;
     height:100%;
     object-fit:cover;
-    animation:drugMove 1s infinite alternate;
+    border-radius: 16px;
+    animation:drugMove 1.5s infinite alternate ease-in-out;
 }
 
 @keyframes drugMove{
@@ -523,16 +538,20 @@ footer{
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+/* Chế độ tối (Dark Mode) */
 .dark-mode{ background:#121212; color:#e0e0e0; }
-.dark-mode .section, .dark-mode .hospital-box, .dark-mode .qr-box-side, .dark-mode .history-box{ background:#1e1e1e; color:white; border-color: #333; }
-.dark-mode .result, .dark-mode table th{ background:#252525; color:white; }
-.dark-mode table td{ color: #ddd; }
+.dark-mode .section, .dark-mode .hospital-box, .dark-mode .qr-box-side, .dark-mode .history-box, .dark-mode .banner{ background:#1e1e1e; color:white; border-color: #333; }
+.dark-mode .result, .dark-mode table th{ background:#252525; color:white; border-color: #333; }
+.dark-mode table td{ color: #ddd; border-color: #333; }
 .dark-mode .history-item { background: #252525; color: #b2dfdb; border-color: #333; }
 .dark-mode input[type=text] { background: #252525; color: white; border-color: #444; }
+.dark-mode .suggestion-box { background: #252525; border-color: #444; }
+.dark-mode .suggestion-item { color: #eee; }
+.dark-mode .suggestion-item:hover { background: #333; }
 
-body{ animation: pageOpen 1.2s ease; }
+body{ animation: pageOpen 1s ease; }
 @keyframes pageOpen{
-    from{ opacity:0; transform:translateY(15px); }
+    from{ opacity:0; transform:translateY(10px); }
     to{ opacity:1; transform:translateY(0); }
 }
 
@@ -547,16 +566,16 @@ header.shrink .logo img{ width: 50px; height: 50px; }
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* AI WIDGET CHAT POPUP ĐẸP */
+/* Nâng cấp giao diện WIDGET CHAT AI thành dạng khung Chat tròn chuyên nghiệp */
 #aiFloatBtn{
     position:fixed; right:30px; bottom:30px; width:60px; height:60px; border-radius:50%;
     border:none; background: linear-gradient(135deg, #009688, #00796b); color:white; font-size:28px;
-    cursor:pointer; box-shadow:0 8px 25px rgba(0,121,107,0.4); z-index:9999; transition: 0.3s;
+    cursor:pointer; box-shadow:0 8px 25px rgba(0,121,107,0.35); z-index:9999; transition: 0.3s;
 }
-#aiFloatBtn:hover{ transform: scale(1.05) rotate(5deg); }
+#aiFloatBtn:hover{ transform: scale(1.08) rotate(5deg); }
 
 #aiPopup{
-    position:fixed; right:30px; bottom:105px; width:400px; height:550px;
+    position:fixed; right:30px; bottom:105px; width:380px; height:520px;
     background:white; border-radius:16px; box-shadow:0 12px 40px rgba(0,0,0,0.15);
     display:none; overflow:hidden; z-index:9999; border: 1px solid #e0f2f1;
     flex-direction: column;
@@ -572,7 +591,7 @@ header.shrink .logo img{ width: 50px; height: 50px; }
     padding: 15px; display: flex; flex-direction: column; gap: 12px; height: calc(100% - 54px);
 }
 #aiQuestion{
-    width: 100%; height: 80px; padding: 12px; border-radius: 10px; border: 1px solid #cfe5e3;
+    width: 100%; height: 75px; padding: 12px; border-radius: 10px; border: 1px solid #cfe5e3;
     resize: none; font-size: 14px; outline: none; transition: 0.2s;
 }
 #aiQuestion:focus{ border-color: #00796b; box-shadow: 0 0 0 3px rgba(0,121,107,0.1); }
@@ -586,80 +605,70 @@ header.shrink .logo img{ width: 50px; height: 50px; }
 #aiResult{
     flex: 1; background: #f8fbfb; border-radius: 10px; padding: 12px; overflow-y: auto;
     font-size: 14px; line-height: 1.6; border: 1px solid #e0f2f1; color: #2c3e50;
+    text-align: left;
 }
 
-/* RESPONSIVE MOBILE APP */
+.drug-mini-card{ 
+    background:white; border-radius:12px; padding:15px; margin-top:12px; 
+    cursor:pointer; box-shadow: 0 3px 10px rgba(0,0,0,0.06); transition:0.2s; 
+    text-align: left; border: 1px solid #e0f2f1;
+}
+.drug-mini-card:hover{ transform:translateY(-2px); box-shadow: 0 6px 15px rgba(0,121,107,0.15); }
+.drug-mini-card h3{ color:#00796b; font-size:17px; margin-bottom:6px; }
+.drug-mini-card p{ font-size:14px; line-height:1.5; color:#555; margin:3px 0; }
+
+/* --- 2. CSS RESPONSIVE CHO MOBILE (Giữ nguyên cấu trúc App cũ) --- */
+.mobile-bottom-menu { display: none; }
 @media(max-width:768px){
     body{ padding-bottom:75px; }
     header{ background: linear-gradient(rgba(0,105,92,.95), rgba(0,77,64,.95)); padding:12px; }
     .logo img{ width:60px; height:60px; }
     header h1{ font-size:16px; margin-top:5px; }
-    .view-switcher, #themeBtn, .banner-content p, .banner-content ul{ display:none; }
-    .banner{ min-height:auto; padding:10px; background:none; }
+    .view-switcher, #themeBtn, .banner-content p { display:none; }
+    .banner{ min-height:auto; padding:10px; background:none; box-shadow: none; }
     .banner-content{ background: linear-gradient(135deg, #00796b, #004d40); border-radius:20px; padding:20px; }
-    .banner-content h2{ font-size:21px; }
+    .banner-content h2{ font-size:20px; }
     .main-layout{ width:100%; padding:15px; display:flex; flex-direction:column; gap:20px; }
     .left-column, .center-column, .right-column{ width:100%; }
-    .qr-box-side{ border-radius:20px; padding:20px; margin-bottom:15px; }
-    .qr-box-side h3{ font-size:18px; }
-    .qr-box-side img{ width:140px; }
-    .section{ border-radius:20px; padding:15px; margin-bottom:15px; }
-    .section-title{ border-radius:15px; font-size:18px; text-align:center; }
-    input[type=text]{ height:55px; border-radius:15px; font-size:17px; padding-left:20px; }
-    .search-box button.search-btn{ height:55px; font-size:18px; font-weight:bold; border-radius:15px; width: 100%; }
-    .suggestion-item{ border-radius:15px; padding:12px; }
-    .result{ border-radius:15px; overflow:hidden; }
-    .drug-banner-animation{ display:block; height:160px; margin:20px auto; }
-    #aiPopup{ left:15px; right:15px; width:auto; height:70vh; bottom:85px; }
+    .section{ border-radius:20px; padding:15px; }
+    .section-title{ border-radius:15px; font-size:16px; text-align:center; }
+    input[type=text]{ height:50px; border-radius:12px; font-size:15px; }
+    .search-box button.search-btn{ height:50px; font-size:16px; border-radius:12px; width: 100%; }
+    .result{ border-radius:15px; }
+    #aiPopup{ left:15px; right:15px; width:auto; height:65vh; bottom:85px; }
     #aiFloatBtn{ width:55px; height:55px; right:20px; bottom:20px; }
     .mobile-bottom-menu{
-        display:flex; position:fixed; bottom:0; left:0; right:0; height:70px; background:white;
-        z-index:9999; box-shadow: 0 -3px 15px rgba(0,0,0,.15); justify-content:space-around;
+        display:flex; position:fixed; bottom:0; left:0; right:0; height:65px; background:white;
+        z-index:9999; box-shadow: 0 -3px 15px rgba(0,0,0,.1); justify-content:space-around;
     }
-    .mobile-bottom-menu a{ flex:1; text-align:center; text-decoration:none; color:#00695c; font-size:12px; font-weight:bold; padding-top:8px; }
-    .mobile-bottom-menu span{ display:block; font-size:25px; margin-bottom:3px; }
+    .mobile-bottom-menu a{ flex:1; text-align:center; text-decoration:none; color:#00695c; font-size:11px; font-weight:bold; padding-top:8px; }
+    .mobile-bottom-menu span{ display:block; font-size:22px; margin-bottom:2px; }
     .dark-mode .mobile-bottom-menu{ background:#222; }
     .dark-mode .mobile-bottom-menu a{ color:white; }
 }
 
-@media(max-width:390px){
-    header h1{ font-size:16px; }
-    .banner-content h2{ font-size:20px; }
-    .section, .hospital-box, .qr-box-side, .history-box{ background:white; border-radius:18px; padding:20px; box-shadow:0 8px 20px rgba(0,0,0,.08); height:100%; }
-    .qr-box-side img{ width:130px; }
-    .mobile-bottom-menu{ height:65px; }
-    .mobile-bottom-menu span{ font-size:22px; }
-}
-
-/* DRUG CARD MOBILE */
+/* Thẻ kết quả dạng Card đặc thù cho Mobile */
 .drug-card{ display:none; }
 @media(max-width:768px){
-    .drug-card{ display:block; background:white; border-radius:20px; padding:15px; box-shadow: 0 4px 15px rgba(0,0,0,.12); margin-top:15px; }
+    .drug-card{ display:block; background:white; border-radius:20px; padding:15px; box-shadow: 0 4px 15px rgba(0,0,0,.08); margin-top:15px; text-align: left;}
     .drug-card-header{ display:flex; align-items:center; gap:15px; background: linear-gradient(135deg, #00796b, #004d40); color:white; padding:15px; border-radius:15px; }
-    .drug-icon{ font-size:35px; }
-    .drug-card-header h2{ font-size:20px; margin:0; line-height:1.4; }
-    .drug-card-header p{ margin-top:5px; font-size:14px; }
+    .drug-icon{ font-size:32px; }
+    .drug-card-header h2{ font-size:18px; margin:0; }
+    .drug-card-header p{ margin-top:4px; font-size:13px; }
     .drug-info{ margin-top:15px; }
-    .drug-item{ padding:12px; border-bottom: 1px solid #eee; }
-    .drug-item span{ font-weight:bold; color:#00796b; font-size:15px; }
-    .drug-item p{ margin-top:6px; font-size:15px; line-height:1.6; }
-    .drug-item.warning{ background:#fff3cd; border-radius:12px; border-left: 5px solid #ff9800; }
-    .drug-item.dose{ background:#e8f5e9; border-radius:12px; border-left: 5px solid #2e7d32; }
+    .drug-item{ padding:10px 0; border-bottom: 1px solid #eee; }
+    .drug-item span{ font-weight:bold; color:#00796b; font-size:14px; }
+    .drug-item p{ margin-top:4px; font-size:14px; line-height:1.5; }
+    .drug-item.warning{ background:#fff3cd; padding:10px; border-radius:8px; border-left: 4px solid #ff9800; }
+    .drug-item.dose{ background:#e8f5e9; padding:10px; border-radius:8px; border-left: 4px solid #2e7d32; }
 }
-
-.drug-mini-card{ background:white; border-radius:15px; padding:15px; margin-top:12px; cursor:pointer; box-shadow: 0 3px 10px rgba(0,0,0,0.15); transition:0.25s; text-align: left;}
-.drug-mini-card:hover{ transform:translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
-.drug-mini-card h3{ color:#00796b; font-size:18px; margin-bottom:8px; }
-.drug-mini-card p{ font-size:15px; line-height:1.5; margin:5px 0; color:#555; }
 </style>
 <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 
 <body>
 
-<div id="loadingBox">
-⏳ Đang tải dữ liệu thuốc...
-</div>
+<div id="loadingBox">⏳ Đang tải dữ liệu thuốc...</div>
 
 <header>
     <div class="logo">
@@ -692,10 +701,10 @@ header.shrink .logo img{ width: 50px; height: 50px; }
             <p>Quét mã QR để tra cứu nhanh trên thiết bị di động</p>
             <div class="social-box">
                 <a class="facebook-btn" href="https://www.facebook.com/bvdkbotrach" target="_blank">
-                    <img src="images/facebook.png" alt="Facebook Bệnh viện">
+                    <img src="images/facebook.png" alt="Facebook">
                 </a>
                 <a class="website-btn" href="http://bvdakhoabotrach.vn/" target="_blank">
-                    <img src="images/website.png" alt="Website bệnh viện">
+                    <img src="images/website.png" alt="Website">
                 </a>
             </div>
         </div>
@@ -708,7 +717,7 @@ header.shrink .logo img{ width: 50px; height: 50px; }
 
     <div class="center-column" id="search-area">
         <div class="section">
-            <h2 class="section-title">🔍 TIỀN TIẾM & TRA CỨU THUỐC</h2>
+            <h2 class="section-title">🔍 TIẾP CẬN & TRA CỨU THUỐC</h2>
             <div class="search-tabs">
                 <button class="tab-btn active" onclick="setSearchMode('drug',this)">💊 Tên thuốc</button>
                 <button class="tab-btn" onclick="setSearchMode('active',this)">🧪 Hoạt chất</button>
@@ -723,13 +732,13 @@ header.shrink .logo img{ width: 50px; height: 50px; }
         </div>
         
         <div class="drug-banner-animation">
-            <img src="images/anhdong.gif" alt="Tra cứu thuốc">
+            <img src="images/anhdong.gif" alt="Animation thuốc">
         </div>
     </div>
 
     <div class="right-column" id="contact-area">
         <div class="hospital-box">
-            <img src="images/benhvien.jpg" alt="Bệnh viện Đa khoa Bố Trạch">
+            <img src="images/benhvien.jpg" alt="Bệnh viện">
             <div class="hospital-content">
                 <h3>BỆNH VIỆN ĐA KHOA BỐ TRẠCH</h3>
                 <p>Hình ảnh tổng quan khuôn viên bệnh viện.</p>
@@ -737,7 +746,7 @@ header.shrink .logo img{ width: 50px; height: 50px; }
         </div>
 
         <div class="hospital-box">
-            <img src="images/doingu.jpg" alt="Đội ngũ cán bộ">
+            <img src="images/doingu.jpg" alt="Đội ngũ">
             <div class="hospital-content">
                 <h3>ĐỘI NGŨ CÁN BỘ Y TẾ</h3>
                 <p>Chuyên nghiệp - Tận tâm - Hiệu quả vì sức khỏe nhân dân.</p>
@@ -775,26 +784,26 @@ header.shrink .logo img{ width: 50px; height: 50px; }
 <script>
 let drugDatabase = [];
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/17u-WcxJUe0Q478fWJFO4oe4IY-_W2UNbgvjO1JV6zfE/export?format=csv&gid=1953360248";
-let dataLoaded=false;
+let dataLoaded = false;
 
 function showLoading(){
     let box = document.getElementById("loadingBox");
-    if(box){ box.style.display="block"; }
+    if(box){ box.style.display = "block"; }
 }
 
 function hideLoading(){
     let box = document.getElementById("loadingBox");
-    if(box){ box.style.display="none"; }
+    if(box){ box.style.display = "none"; }
 }
 
 showLoading();
 
 Papa.parse(SHEET_URL,{
-    download:true,
-    header:true,
-    complete:function(results){
+    download: true,
+    header: true,
+    complete: function(results){
         drugDatabase = results.data;
-        dataLoaded=true;
+        dataLoaded = true;
         hideLoading();
         console.log("Đã tải", drugDatabase.length, "thuốc");
         initSuggest();
@@ -856,16 +865,16 @@ function createDrugCard(drug){
 }
 
 function createDrugList(results){
-    let html="";
-    results.forEach((drug,index)=>{
-        html+=`
+    let html = "";
+    results.forEach((drug, index)=>{
+        html += `
         <div class="drug-mini-card" onclick="showDrug(window.searchResults[${index}])">
             <h3>💊 ${drug["Tên thuốc"]}</h3>
             <p>ATC: ${drug["Mã ATC"] || ""}</p>
             <p>${drug["Tên hoạt chất - HL"] || ""}</p>
         </div>`;
     });
-    window.searchResults=results;
+    window.searchResults = results;
     return html;
 }
 
@@ -944,7 +953,7 @@ window.onload = function(){
     detectDevice();
     showDrugHistory();
     let savedMode = localStorage.getItem("viewMode");
-    if(savedMode==="mobile"){ setMobileView(); } else { setDesktopView(); }
+    if(savedMode === "mobile"){ setMobileView(); } else { setDesktopView(); }
     document.getElementById("searchInput").addEventListener("keydown", function(e){
         if (e.key === "Enter") { searchAll(); }
     });
@@ -1049,10 +1058,10 @@ function setSearchMode(mode, btn) {
     document.getElementById("commonSuggestions").innerHTML = "";
 }
 
-const popup=document.getElementById("aiPopup");
-function openAI(){ popup.style.display="flex"; }
-function closeAI(){ popup.style.display="none"; }
-document.getElementById("aiFloatBtn").onclick=openAI;
+const popup = document.getElementById("aiPopup");
+function openAI(){ popup.style.display = "flex"; }
+function closeAI(){ popup.style.display = "none"; }
+document.getElementById("aiFloatBtn").onclick = openAI;
 </script>
 </body>
 </html>
