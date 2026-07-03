@@ -3174,32 +3174,6 @@ document.getElementById("searchInput")
 
 let searchMode = "drug";
 
-function setSearchMode(mode, btn) {
-
-    searchMode = mode;
-
-    document
-        .querySelectorAll(".tab-btn")
-        .forEach(b => b.classList.remove("active"));
-
-    btn.classList.add("active");
-
-    const input = document.getElementById("searchInput");
-
-    if (mode === "drug")
-        input.placeholder = "Nhập tên thuốc...";
-
-    if (mode === "active")
-        input.placeholder = "Nhập hoạt chất...";
-
-    if (mode === "atc")
-        input.placeholder = "Nhập mã ATC...";
-
-    input.focus();
-
-    document.getElementById("commonSuggestions").innerHTML = "";
-}
-
 
 
 function searchAll() {
