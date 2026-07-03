@@ -3171,16 +3171,14 @@ function searchDrugName(){
 
 
 let keyword =
-document.getElementById("drugNameInput")
+document.getElementById("searchInput")
 .value
 .trim()
 .toLowerCase();
 
 
-
 let resultDiv =
-document.getElementById("drugNameResult");
-
+document.getElementById("searchResult");
 
 
 let results =
@@ -3224,14 +3222,13 @@ resultDiv.innerHTML =
 function searchATC(){
 
 let keyword =
-document.getElementById("atcInput")
+document.getElementById("searchInput")
 .value
 .trim()
 .toLowerCase();
 
 let result =
-document.getElementById("atcResult");
-
+document.getElementById("searchResult")
 let drug =
 drugDatabase.find(item =>
 
@@ -3266,13 +3263,13 @@ result.innerHTML="Không tìm thấy thuốc.";
 function searchActive(){
 
 let keyword =
-document.getElementById("activeInput")
+document.getElementById("searchInput")
 .value
 .trim()
 .toLowerCase();
 
 let result =
-document.getElementById("activeResult");
+document.getElementById("searchResult")
 
 let drug =
 drugDatabase.find(item =>
@@ -3541,30 +3538,15 @@ function setSearchMode(mode,btn){
     function searchAll(){
 
     if(searchMode==="drug"){
-
-        document.getElementById("drugNameInput").value=
-        document.getElementById("searchInput").value;
-
         searchDrugName();
-
     }
 
     if(searchMode==="active"){
-
-        document.getElementById("activeInput").value=
-        document.getElementById("searchInput").value;
-
         searchActive();
-
     }
 
     if(searchMode==="atc"){
-
-        document.getElementById("atcInput").value=
-        document.getElementById("searchInput").value;
-
         searchATC();
-
     }
 
 }
