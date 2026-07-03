@@ -112,7 +112,8 @@ input[type=text]:focus{ border-color:#00a884; box-shadow:0 0 0 3px rgba(0,168,13
 .search-btn { background:#00796b; color:white; border:none; padding:0 20px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:15px; }
 .search-btn:hover { background:#004d40; }
 
-.filter-group-container{ margin-top:12px; display:flex; flex-direction:column; gap:6px; }
+.filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.filter-group-container{ display:flex; flex-direction:column; gap:6px; }
 .filter-group-label{ font-size:13px; font-weight:bold; color:#555; }
 .filter-select{ width:100%; padding:10px; border-radius:8px; border:1px solid #cfe5e3; font-size:14px; color:#004d40; background:white; outline:none; }
 
@@ -136,7 +137,7 @@ table tr:nth-child(even) { background: #fafafa; }
 .badge-bhyt { background: #2e7d32; }
 .badge-dv { background: #c62828; }
 
-/* BỘ TÍNH LIỀU NHI KHOA DÀNH RIÊNG CHO BÁC SĨ */
+/* BỘ TÍNH LIỀU NHI KHOA DÀNH REING CHO BÁC SĨ */
 .calc-box { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; padding: 12px; background: #e8f5e9; border-radius: 8px; border: 1px solid #c8e6c9; }
 .calc-row { display: flex; gap: 10px; align-items: center; }
 .calc-input { width: 80px; padding: 6px; border-radius: 4px; border: 1px solid #a5d6a7; text-align: center; }
@@ -232,6 +233,8 @@ footer{ background:#00695c; color:white; text-align:center; padding:15px; margin
     .search-box button { height:45px; font-size:15px; width: 100%; border-radius:8px; }
     .suggestion-box { top: 105px; }
     
+    .filter-grid { grid-template-columns: 1fr; gap: 8px; }
+
     table { display: none !important; }
     .result { padding: 8px; border-radius: 10px; }
     .result-header { border-radius: 10px 10px 0 0; padding: 12px; }
@@ -365,16 +368,27 @@ footer{ background:#00695c; color:white; text-align:center; padding:15px; margin
                 <div id="commonSuggestions" class="suggestion-box"></div>
             </div>
             
-            <div class="filter-group-container">
-                <div class="filter-group-label">📁 Hoặc lọc nhanh theo Nhóm dược lý lâm sàng:</div>
-                <select id="pharmacologyFilter" class="filter-select" onchange="filterByPharmacology()">
-                    <option value="">-- Chọn tất cả các nhóm thuốc --</option>
-                    <option value="kháng sinh">Thuốc Kháng sinh / Kháng khuẩn</option>
-                    <option value="hạ sốt">Thuốc Giảm đau / Hạ sốt / Chống viêm</option>
-                    <option value="tim mạch">Thuốc Tim mạch / Huyết áp</option>
-                    <option value="tiêu hóa">Thuốc Hệ Tiêu hóa / Dạ dày</option>
-                    <option value="hô hấp">Thuốc Hệ Hô hấp / Giảm ho</option>
-                </select>
+            <div class="filter-grid">
+                <div class="filter-group-container">
+                    <div class="filter-group-label">📁 Lọc theo Nhóm dược lý lâm sàng:</div>
+                    <select id="pharmacologyFilter" class="filter-select" onchange="applyFilters()">
+                        <option value="">-- Chọn tất cả các nhóm --</option>
+                        <option value="kháng sinh">Thuốc Kháng sinh / Kháng khuẩn</option>
+                        <option value="hạ sốt">Thuốc Giảm đau / Hạ sốt / Chống viêm</option>
+                        <option value="tim mạch">Thuốc Tim mạch / Huyết áp</option>
+                        <option value="tiêu hóa">Thuốc Hệ Tiêu hóa / Dạ dày</option>
+                        <option value="hô hấp">Thuốc Hệ Hô hấp / Giảm ho</option>
+                    </select>
+                </div>
+
+                <div class="filter-group-container">
+                    <div class="filter-group-label">💳 Lọc theo Loại hình thanh toán:</div>
+                    <select id="typeFilter" class="filter-select" onchange="applyFilters()">
+                        <option value="">-- Chọn tất cả loại hình --</option>
+                        <option value="BHYT">Thuốc Bảo hiểm Y tế (BHYT)</option>
+                        <option value="Dịch vụ">Thuốc Dịch vụ / Tự túc</option>
+                    </select>
+                </div>
             </div>
 
             <div id="searchResult" class="result"></div>
@@ -465,6 +479,8 @@ function logoutRole() {
     document.getElementById("mainWebContainer").classList.add("blur-content");
     document.getElementById("searchInput").value = "";
     document.getElementById("searchResult").style.display = "none";
+    document.getElementById("pharmacologyFilter").value = "";
+    document.getElementById("typeFilter").value = "";
 }
 
 // 5.2 THAY ĐỔI GỢI Ý CÂU HỎI AI THEO ĐỐI TƯỢNG ĐĂNG NHẬP
@@ -475,7 +491,7 @@ function renderAIPrompts() {
             <div class="prompt-tag" onclick="usePrompt('Kiểm tra tương tác chéo bất lợi của hoạt chất này?')">⚠️ Tương tác thuốc</div>
             <div class="prompt-tag" onclick="usePrompt('Liều dùng khuyến cáo cho bệnh nhân suy gan, suy thận nặng?')">⚕️ Liều suy gan/thận</div>
             <div class="prompt-tag" onclick="usePrompt('Thuốc này có thuộc nhóm chống chỉ định tuyệt đối cho thai kỳ không?')">🤰 Thai kỳ</div>
-            <div class="prompt-tag" onclick="usePrompt('Görü ý hoạt chất thay thế tương đương nếu kho bệnh viện hết hàng?')">🔄 Thuốc thay thế</div>
+            <div class="prompt-tag" onclick="usePrompt('Gợi ý hoạt chất thay thế tương đương nếu kho bệnh viện hết hàng?')">🔄 Thuốc thay thế</div>
         `;
     } else {
         container.innerHTML = `
@@ -521,16 +537,31 @@ function startSpeechRecognition() {
     recognition.start();
 }
 
-// TÍNH NĂNG: LỌC NHANH DANH MỤC THEO NHÓM DƯỢC LÝ LÂM SÀNG
-function filterByPharmacology() {
+// TÍNH NĂNG MỚI CẬP NHẬT: BỘ LỌC ĐA TIÊU CHÍ (NHÓM DƯỢC LÝ + LOẠI HÌNH THANH TOÁN BHYT)
+function applyFilters() {
     const selectedGroup = document.getElementById("pharmacologyFilter").value;
+    const selectedType = document.getElementById("typeFilter").value;
     const resultBox = document.getElementById("searchResult");
-    if(!selectedGroup) { resultBox.style.display = "none"; return; }
     
-    const matched = drugDatabase.filter(item => item["Nhóm Dược Lý"] === selectedGroup);
+    // Nếu cả hai bộ lọc đều trống thì ẩn vùng kết quả
+    if(!selectedGroup && !selectedType) { resultBox.style.display = "none"; return; }
+    
+    let matched = drugDatabase;
+    
+    if (selectedGroup) {
+        matched = matched.filter(item => item["Nhóm Dược Lý"] === selectedGroup);
+    }
+    
+    if (selectedType) {
+        matched = matched.filter(item => item["Loại"] === selectedType);
+    }
+    
     resultBox.style.display = "block";
-    if(matched.length === 0) { resultBox.innerHTML = "<h3>❌ Không tìm thấy thuốc trong nhóm dược lý này.</h3>"; } 
-    else { resultBox.innerHTML = buildCompactList(matched); }
+    if(matched.length === 0) { 
+        resultBox.innerHTML = "<h3>❌ Không tìm thấy thuốc phù hợp với các bộ lọc đã chọn.</h3>"; 
+    } else { 
+        resultBox.innerHTML = buildCompactList(matched); 
+    }
 }
 
 // 5.4 THIẾT KẾ KHUNG PC BẢO MẬT & PHÂN QUYỀN DỮ LIỆU THUỐC
