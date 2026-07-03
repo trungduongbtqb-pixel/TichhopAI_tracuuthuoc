@@ -295,45 +295,52 @@ button{
 
 .main-layout{
 
-    max-width:1400px;
+    max-width:1600px;
+
+    width:96%;
 
     margin:25px auto;
 
-    padding:0 20px;
-
     display:grid;
 
-    grid-template-columns:260px 1fr 320px;
+    grid-template-columns:280px minmax(650px,1fr) 320px;
 
     gap:25px;
 
     align-items:start;
 
-    position:relative;
-    
-    z-index:2;
-
 }
 .left-column{
-    
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
 }
 
 .center-column{
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
+}
     
 
 .right-column{
-  
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
 }
 
-.hospital-box{
-    background:rgba(255,255,255,0.75);
-
-    backdrop-filter:blur(8px);
-    border-radius:10px;
-    overflow:hidden;
-    margin-bottom:20px;
-    box-shadow:0 0 10px rgba(218, 7, 7, 0.08);
-}
 
 .hospital-box img{
     width:100%;
@@ -828,12 +835,22 @@ header h1{
 }
 
 
-.section{
+.section,
+.hospital-box,
+.qr-box-side,
+.history-box{
 
-    padding:10px;
+background:white;
+
+border-radius:18px;
+
+padding:20px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+height:100%;
 
 }
-
 
 .qr-box-side img{
 
