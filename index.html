@@ -2663,7 +2663,8 @@ console.log(
 drugDatabase.length,
 "thuốc"
 );
-
+// Khởi tạo hệ thống gợi ý
+initSuggest();
 
 }
 
@@ -3378,80 +3379,64 @@ document.getElementById(boxId);
 
 input.addEventListener("input",function(){
 
-let keyword =
-this.value.trim().toLowerCase();
+function initSuggest() {
+
+    const input = document.getElementById("searchInput");
+    const box = document.getElementById("commonSuggestions");
+
+    if (!input || !box) return;
+
+    input.addEventListener("input", function () {
+
+        const keyword = this.value.trim().toLowerCase();
+
+        box.innerHTML = "";
+
+        if (keyword === "") {
+            box.style.display = "none";
+            return;
+        }
+
+        let field = "Tên thuốc";
+
+        if (searchMode === "active") field = "Tên hoạt chất - HL";
+        if (searchMode === "atc") field = "Mã ATC";
+
+        const result = [...new Set(
+            drugDatabase
+                .filter(item =>
+                    (item[field] || "").toLowerCase().includes(keyword)
+                )
+                .map(item => item[field])
+        )].slice(0, 6);
+
+        result.forEach(item => {
+
+            const div = document.createElement("div");
+
+            div.className = "suggestion-item";
+            div.innerText = item;
+
+            div.onclick = function () {
+
+                input.value = item;
+                box.innerHTML = "";
+                box.style.display = "none";
+
+            };
+
+            box.appendChild(div);
+
+        });
+
+        box.style.display = result.length ? "block" : "none";
+
+    });
+
+}
 
 
-box.innerHTML="";
 
-
-if(keyword==="") return;
-
-
-let result = [
-    ...new Set(
-        drugDatabase
-        .filter(item =>
-            (item[field] || "")
-            .toLowerCase()
-            .includes(keyword)
-        )
-        .map(item => item[field])
-    )
-].slice(0,6);
-
-
-
-result.forEach(item=>{
-
-let div =
-document.createElement("div");
-
-div.className="suggestion-item";
-
-div.innerText =
-item;
-
-
-div.onclick=function(){
-
-    input.value=item;
-    
-    box.innerHTML="";
-
-};
-
-
-box.appendChild(div);
-
-
-});
-
-
-});
-
-
-
-
-// ATC
-"atcInput",
-"atcSuggestions",
-"Mã ATC"
-);
-
-
-// Hoạt chất
-"activeInput",
-"activeSuggestions",
-"Tên hoạt chất - HL"
-);
-
-
-// Tên thuốc
-"drugNameInput",
-"drugSuggestions",
-"Tên thuốc"
-);
 async function askAI() {
 
     const question = document.getElementById("aiQuestion").value.trim();
