@@ -310,7 +310,6 @@ button{
     align-items:start;
 
 }
-
 .left-column{
     flex:2;
 }
@@ -374,14 +373,9 @@ button{
 
 }
 /* Giao diện máy tính */
-.desktop-view .main-layout{
-    flex-direction:row;
-}
+
 
 /* Giao diện điện thoại */
-.mobile-view .main-layout{
-    flex-direction:column;
-}
 
 /* ===== ẢNH BỆNH VIỆN TRÊN ĐIỆN THOẠI ===== */
 
@@ -529,9 +523,7 @@ button{
 
 /* ===== CHẾ ĐỘ ĐIỆN THOẠI ===== */
 
-.mobile-view .main-layout{
-    flex-direction:column;
-}
+
 
 .mobile-view .left-column,
 .mobile-view .center-column,
@@ -947,21 +939,7 @@ header h1{
 
 /* Layout chính */
 
-.main-layout{
 
-    width:100%;
-
-    padding:10px;
-
-    margin:0;
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:15px;
-
-}
 
 
 .left-column,
@@ -2142,23 +2120,6 @@ font-size:16px;
 
 
 }
-.main-layout{
-
-    max-width:1400px;
-
-    margin:25px auto;
-
-    padding:0 20px;
-
-    display:grid;
-
-    grid-template-columns:260px 1fr 320px;
-
-    gap:25px;
-
-    align-items:start;
-
-}
 
 header{
     position: sticky;
@@ -2440,7 +2401,7 @@ alt="Website bệnh viện">
 </div>
 
 </div>
-</div>
+
 <!-- ẢNH ĐỘNG DƯỚI THANH TÌM KIẾM -->
 
 <div class="drug-banner-animation">
@@ -2570,8 +2531,9 @@ Chuyên nghiệp - Tận tâm - Hiệu quả.
 </div>
 
 
-</div>
+</div>      <!-- right-column -->
 
+</div>      <!-- main-layout -->
 
 <footer>
     © 2025 Bệnh viện Đa khoa Bố Trạch - Quảng Trị
