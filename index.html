@@ -2130,18 +2130,30 @@ header{
 
 /* trạng thái thu nhỏ */
 header.shrink{
-    padding: 8px 10px;
-    min-height: 70px;
+    padding: 10px 15px;
+    min-height: 80px;
 }
 
 header.shrink h1{
     font-size: 16px;
+    margin: 0;
+}
+
+header.shrink .sub-title{
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* Ẩn bớt nút khi shrink */
+header.shrink .view-switcher,
+header.shrink #themeBtn{
+    display: none;
 }
 
 header.shrink .logo img{
     width: 55px;
     height: 55px;
-}    
+}   
 </style>
 <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
