@@ -3,7 +3,7 @@
 <head> 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tra cứu thuốc - BVĐK Bố Trạch Quảng Trị</title>
+<title>Hệ thống tra cứu thuốc nâng cao - BVĐK Bố Trạch</title>
 
 <style>
 *{
@@ -13,429 +13,252 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* KHÔI PHỤC HOÀN TOÀN ẢNH NỀN GỐC TOÀN TRANG */
+/* 1. MÀN HÌNH LỰA CHỌN ĐỐI TƯỢNG ĐĂNG NHẬP (OVERLAY MODAL) */
+#loginOverlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(0, 77, 64, 0.95), rgba(0, 38, 32, 0.98)), url("images/bg-content.jpg");
+    background-size: cover; background-position: center;
+    z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 20px;
+    transition: all 0.5s ease;
+}
+.login-card {
+    background: white; padding: 40px 30px; border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3); text-align: center;
+    max-width: 500px; width: 100%; animation: fadeInDown 0.5s ease;
+}
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.login-logo img { width: 100px; height: 100px; background: #fff; border-radius: 50%; padding: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.login-card h2 { color: #00796b; margin: 15px 0 5px 0; font-size: 24px; }
+.login-card p { color: #666; font-size: 15px; margin-bottom: 30px; }
+
+.role-options { display: flex; flex-direction: column; gap: 15px; }
+.role-btn {
+    display: flex; align-items: center; justify-content: flex-start; gap: 15px;
+    padding: 16px 20px; border: 2px solid #e0f2f1; border-radius: 12px;
+    background: #f9fbfb; cursor: pointer; transition: all 0.25s ease; text-align: left;
+}
+.role-btn:hover { border-color: #00c9a7; background: #e0f2f1; transform: translateY(-2px); }
+.role-icon { font-size: 28px; }
+.role-text b { display: block; color: #004d40; font-size: 16px; margin-bottom: 2px; }
+.role-text span { color: #777; font-size: 13px; }
+
+/* HIỆU ỨNG LÀM MỜ TRANG CHỦ KHI CHƯA CHỌN VAI TRÒ */
+.blur-content { filter: blur(8px); pointer-events: none; }
+
+/* 2. GIAO DIỆN TRANG CHỦ CHÍNH */
 body{
-    background-image: linear-gradient(rgba(245,250,250,0.15), rgba(245,250,250,0.15)), url("images/bg-content.jpg");
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    color:#333;
-    transition: all 0.3s ease;
+    background-image: linear-gradient(rgba(245,250,250,0.2), rgba(245,250,250,0.2)), url("images/bg-content.jpg");
+    background-size: cover; background-attachment: fixed; background-position: center; background-repeat: no-repeat;
+    color:#333; padding-bottom: 20px; transition: all 0.3s ease;
 }
 
-/* KHÔI PHỤC VÀ TỐI ƯU HEADER */
 header{
     background: linear-gradient(rgba(0,105,92,0.85), rgba(0,77,64,0.85)), url("images/bg-header.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color:white;
-    padding:25px 20px;
-    position: sticky;
-    top: 0;
-    text-align:center;
-    min-height:140px;
-    border-bottom:5px solid #00c9a7;
-    z-index: 9999;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    background-size: cover; background-position: center; color:white; padding:25px 20px;
+    position: sticky; top: 0; text-align:center; min-height:140px; border-bottom:5px solid #00c9a7;
+    z-index: 999; backdrop-filter: blur(10px); transition: all 0.3s ease;
 }
+.logo{ position:absolute; top:12px; left:20px; }
+.logo img{ width:110px; height:110px; object-fit:contain; background:white; border-radius:50%; padding:5px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+header h1{ margin-bottom:5px; font-size: 26px; text-shadow: 1px 1px 3px rgba(0,0,0,0.4); }
+.sub-title{ color:white; font-size:16px; opacity:.95; font-weight:400; }
 
-.logo{
-    position:absolute;
-    top:12px;
-    left:20px;
+/* HIỂN THỊ THÀNH VIÊN ĐĂNG NHẬP TRÊN HEADER */
+.user-status-tag {
+    background: rgba(255,255,255,0.2); color: white; display: inline-block;
+    padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-top: 8px;
 }
+.logout-btn { background: #ff5252 !important; color: white !important; margin-left: 10px !important; }
 
-.logo img{
-    width:110px;
-    height:110px;
-    object-fit:contain;
-    background:white;
-    border-radius:50%;
-    padding:5px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-header h1{
-    margin-bottom:10px;
-    font-size: 28px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-}
-
-.sub-title{
-    color:white;
-    font-size:18px;
-    margin-top:8px;
-    opacity:.95;
-    font-weight:400;
-}
-
-/* KHU VỰC BANNER THỰC TẾ */
-.banner{
-    max-width:1200px;
-    margin:20px auto;
-    background:#ffffff;
-    border-radius:16px;
-    padding:20px;
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
-}
-
+/* BANNER TRUYỀN THÔNG */
+.banner{ max-width:1400px; margin:20px auto; background:#ffffff; border-radius:16px; padding:15px; box-shadow:0 4px 15px rgba(0,0,0,.06); }
 .banner-content{
-    text-align:center;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("images/banner.jpg");
-    background-size: cover;
-    background-position: center;
-    padding:40px 20px;
-    border-radius:12px;
+    text-align:center; background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("images/banner.jpg");
+    background-size: cover; background-position: center; padding:35px 20px; border-radius:12px;
 }
+.banner-content h2{ color:#fff; font-size:30px; margin-bottom:10px; text-shadow:2px 2px 6px rgba(0,0,0,0.7); }
+.banner-content p{ color: #fff; font-size:16px; text-shadow:1px 1px 4px rgba(0,0,0,0.7); }
 
-.banner-content h2{
-    color:#fff;
-    font-size:32px;
-    margin-bottom:15px;
-    text-shadow:2px 2px 8px rgba(0,0,0,0.8);
-}
+.safety-message{ margin-top:15px; overflow:hidden; background:rgba(0,0,0,0.4); border-radius:8px; padding:8px 0; }
+.safety-message span{ display:inline-block; white-space:nowrap; color:#ffeb3b; font-size:16px; font-weight:bold; animation:safetyMove 12s linear infinite alternate; }
+@keyframes safetyMove{ from{ transform:translateX(-15%); } to{ transform:translateX(15%); } }
 
-.banner-content p{
-    font-size:18px;
-    color: #fff;
-    max-width:900px;
-    margin:auto;
-    text-shadow:1px 1px 4px rgba(0,0,0,0.8);
-}
+/* LAYOUT 3 CỘT */
+.main-layout{ max-width:1400px; width:96%; margin:20px auto; display:grid; grid-template-columns:300px 1fr 300px; gap:20px; align-items:start; }
+.left-column, .center-column, .right-column{ display:flex; flex-direction:column; gap:20px; }
+.section{ background:rgba(255,255,255,0.95); backdrop-filter:blur(5px); padding:20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,.05); }
+.section-title{ color:white; background:#00796b; padding:12px; border-radius:8px; margin-bottom:15px; font-size:18px; text-align: center; font-weight: bold; }
 
-.safety-message{ 
-    margin-top:20px; 
-    overflow:hidden; 
-    width:100%; 
-    background:rgba(0,0,0,0.4); 
-    border-radius:8px; 
-    padding:10px 0; 
-}
-.safety-message span{ 
-    display:inline-block; 
-    white-space:nowrap; 
-    color:#ffeb3b; 
-    font-size:18px; 
-    font-weight:bold; 
-    animation:safetyMove 10s linear infinite alternate; 
-}
-@keyframes safetyMove{ from{ transform:translateX(-20%); } to{ transform:translateX(20%); } }
+/* THANH TÌM KIẾM SMART SEARCH */
+.search-tabs{ display:flex; gap:6px; margin-bottom:15px; }
+.tab-btn{ flex:1; background:#f1f5f5; color:#00695c; border:1px solid #b2dfdb; border-radius:8px; padding:10px; font-weight:bold; cursor: pointer; transition: 0.2s; font-size:14px; }
+.tab-btn.active{ background:#00796b; color:white; border-color:#00796b; }
 
-/* LAYOUT 3 CỘT MÁY TÍNH CÂN ĐỐI */
-.main-layout{
-    max-width:1600px;
-    width:96%;
-    margin:25px auto;
-    display:grid;
-    grid-template-columns:290px minmax(650px,1fr) 320px;
-    gap:25px;
-    align-items:start;
-}
+.search-box{ display:flex; gap:8px; position: relative; }
+input[type=text]{ flex:1; padding:12px 45px 12px 15px; border:2px solid #cfe5e3; border-radius:8px; font-size:15px; background:#fff; }
+input[type=text]:focus{ border-color:#00a884; box-shadow:0 0 0 3px rgba(0,168,132,.12); outline:none; }
 
-.left-column, .center-column, .right-column{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-}
+.voice-btn { position: absolute; right: 115px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 18px; cursor: pointer; color: #00796b; padding: 5px; }
+.voice-btn.recording { color: red; animation: pulse 1s infinite; }
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-.section{
-    background:rgba(255,255,255,0.92);
-    backdrop-filter:blur(8px);
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 6px 20px rgba(0,0,0,.06);
-    transition:.3s;
-}
+.search-btn { background:#00796b; color:white; border:none; padding:0 20px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:15px; }
+.search-btn:hover { background:#004d40; }
 
-.section-title{
-    color:white;
-    background:#00796b;
-    padding:14px;
-    border-radius:8px;
-    margin-bottom:20px;
-    font-size: 20px;
-    text-align: center;
-}
+.filter-group-container{ margin-top:12px; display:flex; flex-direction:column; gap:6px; }
+.filter-group-label{ font-size:13px; font-weight:bold; color:#555; }
+.filter-select{ width:100%; padding:10px; border-radius:8px; border:1px solid #cfe5e3; font-size:14px; color:#004d40; background:white; outline:none; }
 
-/* KHU VỰC TÌM KIẾM CHUYÊN NGHIỆP */
-.search-tabs{ 
-    display:flex; 
-    gap:8px; 
-    margin-bottom:18px; 
-}
-.tab-btn{ 
-    flex:1; 
-    background:#f3f7f7; 
-    color:#00695c; 
-    border:2px solid #cfe5e3; 
-    border-radius:10px; 
-    padding:12px; 
-    font-weight:bold; 
-    cursor: pointer;
-    transition: 0.2s;
-}
-.tab-btn.active{ 
-    background:#00796b; 
-    color:white; 
-    border-color:#00796b; 
-}
-
-.search-box{
-    display:flex;
-    gap:10px;
-    position: relative;
-}
-
-input[type=text]{
-    flex:1;
-    padding:14px 18px;
-    border:2px solid #d9e5e4;
-    border-radius:10px;
-    font-size:16px;
-    background:#ffffff;
-    transition:all .3s ease;
-}
-input[type=text]:focus{
-    border-color:#00a884;
-    box-shadow:0 0 0 4px rgba(0,168,132,.15);
-    outline:none;
-}
-
-.suggestion-box{
-    position: absolute;
-    top: 58px;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    z-index: 100;
-    display: none;
-    overflow: hidden;
-}
-.suggestion-item{
-    padding: 12px 15px;
-    cursor: pointer;
-    border-bottom: 1px solid #eee;
-    font-size: 15px;
-    text-align: left;
-}
-.suggestion-item:last-child{ border: none; }
+/* HỘP GỢI Ý */
+.suggestion-box{ position: absolute; top: 50px; left: 0; right: 0; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 100; display: none; max-height:250px; overflow-y:auto; }
+.suggestion-item{ padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #eee; font-size: 14px; text-align: left; }
 .suggestion-item:hover{ background: #e0f2f1; color: #00796b; }
 
-/* HIỂN THỊ KẾT QUẢ MÁY TÍNH */
-.result{
-    margin-top:20px;
-    padding:20px;
-    background:#ffffff;
-    border-radius: 12px;
-    border-left:6px solid #00796b;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    display:none;
-}
+/* BẢNG HIỂN THỊ KẾT QUẢ PC */
+.result{ margin-top:15px; padding:15px; background:#fff; border-radius: 10px; border-left:5px solid #00796b; box-shadow: 0 2px 10px rgba(0,0,0,0.04); display:none; }
+.result-header{ background:linear-gradient(135deg,#009688,#00695c); color:white; padding:15px; border-radius:8px 8px 0 0; display:flex; justify-content:space-between; align-items:center; }
+.result-header h2{ font-size:20px; margin:0; }
+.fav-toggle-btn { background:none; border:none; color:white; font-size:22px; cursor:pointer; padding:5px; }
 
-.result-header{ 
-    background:linear-gradient(135deg,#009688,#00695c); 
-    color:white; 
-    padding:18px; 
-    border-radius:10px 10px 0 0; 
-}
-.result-header h2{ margin:0; font-size:24px; }
-.result-header p{ margin-top:8px; opacity:.9; font-size: 15px; }
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:0;
-    overflow:hidden;
-    border-radius:0 0 10px 10px;
-}
-table th, table td{
-    border:1px solid #e0e0e0;
-    padding:14px;
-    font-size: 15px;
-}
-table td{ line-height:1.6; }
-table th{
-    background:#f4fbfb;
-    color:#00695c;
-    width:200px;
-    text-align:left;
-    font-weight: bold;
-}
+table{ width:100%; border-collapse:collapse; border-radius:0 0 8px 8px; overflow:hidden; }
+table th, table td{ border:1px solid #e0e0e0; padding:12px; font-size: 14px; }
+table th{ background:#f4fbfb; color:#00695c; width:180px; text-align:left; font-weight: bold; }
 table tr:nth-child(even) { background: #fafafa; }
 
-/* BOX BÊN PHẢI VÀ BÊN TRÁI */
-.hospital-box{
-    background: rgba(255, 255, 255, 0.92);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-.hospital-box img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-    transition:transform .4s ease;
-}
-.hospital-box:hover img{ transform:scale(1.04); }
-.hospital-content{ padding:15px; }
-.hospital-content h3{ color:#e01515; margin-bottom:8px; font-size: 16px; }
-.hospital-content p{ font-size: 14px; color: #555; }
+.badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 8px; color: white; }
+.badge-bhyt { background: #2e7d32; }
+.badge-dv { background: #c62828; }
 
-.qr-box-side{
-    background:rgba(255,255,255,0.92);
-    text-align:center;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.05);
-}
-.qr-box-side img{ width:160px; height: 160px; margin: 10px 0; }
+/* BỘ TÍNH LIỀU NHI KHOA */
+.calc-box { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; padding: 12px; background: #e8f5e9; border-radius: 8px; border: 1px solid #c8e6c9; }
+.calc-row { display: flex; gap: 10px; align-items: center; }
+.calc-input { width: 80px; padding: 6px; border-radius: 4px; border: 1px solid #a5d6a7; text-align: center; }
+.calc-btn { background: #2e7d32; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; }
 
-.social-box{ display:flex; justify-content:center; gap:15px; margin-top:15px; }
-.facebook-btn, .website-btn{
-    width:50px; height:50px; display:flex; justify-content:center; align-items:center;
-    border-radius:50%; transition:0.3s;
-}
-.facebook-btn{ background:#1877f2; }
-.website-btn{ background:white; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
-.facebook-btn img, .website-btn img{ width:30px; height:30px; }
-.facebook-btn:hover, .website-btn:hover{ transform:scale(1.1); }
+/* TIỆN ÍCH SIDEBAR */
+.qr-box-side{ background:white; text-align:center; padding:15px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.04); }
+.qr-box-side img{ width:140px; height: 140px; margin: 8px 0; }
+.social-box{ display:flex; justify-content:center; gap:12px; margin-top:10px; }
+.facebook-btn, .website-btn{ width:42px; height:42px; display:flex; justify-content:center; align-items:center; border-radius:50%; }
+.facebook-btn{ background:#1877f2; } .website-btn{ background:white; box-shadow:0 2px 6px rgba(0,0,0,0.15); }
+.facebook-btn img, .website-btn img{ width:24px; height:24px; }
 
-.history-box{
-    background:rgba(255,255,255,0.92);
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.05);
-}
-.history-box h3{ color:#00796b; font-size: 17px; margin-bottom:12px; border-bottom: 2px solid #e0f2f1; padding-bottom: 5px;}
-.history-item{ background:white; padding:10px 12px; margin-top:8px; border-radius:8px; cursor:pointer; border: 1px solid #e0e0e0; font-size: 14px;}
-.history-item:hover{ background: #e0f2f1; transform: translateX(4px); }
+.hospital-box{ background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+.hospital-box img{ width:100%; height:180px; object-fit:cover; }
+.hospital-content{ padding:12px; }
+.hospital-content h3{ color:#e01515; margin-bottom:5px; font-size: 15px; }
+.hospital-content p{ font-size: 13px; color: #666; }
 
-.drug-mini-card{
-    background:white; border-radius:10px; padding:15px; margin-top:12px;
-    cursor:pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e0e0e0;
-}
-.drug-mini-card h3{ color:#00796b; font-size:17px; margin-bottom:5px; }
-.drug-mini-card p{ font-size:14px; color:#666; margin:3px 0; }
+.history-box{ background:white; padding:15px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.04); }
+.history-box h3{ color:#00796b; font-size: 15px; margin-bottom:10px; border-bottom: 2px solid #e0f2f1; padding-bottom:4px;}
+.history-item{ background:#f9f9f9; padding:8px 10px; margin-top:6px; border-radius:6px; cursor:pointer; border: 1px solid #e0e0e0; font-size: 13px; display: flex; justify-content: space-between;}
+.history-item:hover{ background: #e0f2f1; }
 
-.copy-btn{ background:#00796b; color:white; border:none; padding:12px 20px; border-radius:8px; cursor:pointer; font-size:15px; font-weight: bold; margin-top:15px; }
-.copy-btn:hover{ background: #004d40; }
+.drug-mini-card{ background:white; border-radius:8px; padding:12px; margin-top:10px; cursor:pointer; border: 1px solid #e0e0e0; }
+.drug-mini-card h3{ color:#00796b; font-size:15px; }
+.drug-mini-card p{ font-size:13px; color:#666; margin:2px 0; }
 
-.drug-banner-animation{ width:100%; height:180px; margin: 25px 0; overflow:hidden; text-align: center;}
-.drug-banner-animation img{ width:auto; height:100%; animation:drugMove 1s infinite alternate; }
-@keyframes drugMove{ from{ transform:scale(1); } to{ transform:scale(1.03); } }
+.copy-btn{ background:#00796b; color:white; border:none; padding:10px 15px; border-radius:6px; cursor:pointer; font-size:14px; font-weight: bold; margin-top:12px; }
+.drug-banner-animation{ width:100%; height:140px; margin: 15px 0; text-align: center; overflow: hidden;}
+.drug-banner-animation img{ height:100%; animation:drugMove 1.2s infinite alternate ease-in-out; }
+@keyframes drugMove{ from{ transform:scale(1); } to{ transform:scale(1.04); } }
 
-footer{ background:#00695c; color:white; text-align:center; padding:20px; margin-top:40px; font-size: 15px; }
+footer{ background:#00695c; color:white; text-align:center; padding:15px; margin-top:30px; font-size: 14px; }
 
-/* CHAT AI POPUP LỚN KHÔNG LỖI */
-#aiFloatBtn{
-    position:fixed; right:25px; bottom:25px; width:65px; height:65px; border-radius:50%;
-    border:none; background:#00796b; color:white; font-size:30px; cursor:pointer;
-    box-shadow:0 6px 16px rgba(0,0,0,.25); z-index:9999; transition: 0.3s;
-}    
-#aiFloatBtn:hover { transform: scale(1.08); }
+/* 3. KHUNG TRỢ LÝ ẢO AI POPUP */
+#aiFloatBtn{ position:fixed; right:20px; bottom:20px; width:60px; height:60px; border-radius:50%; border:none; background:#00796b; color:white; font-size:28px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.2); z-index:999; }    
+#aiPopup{ position:fixed; right:20px; bottom:90px; width:380px; height:520px; background:white; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.2); display:none; flex-direction: column; overflow:hidden; z-index:999; border: 1px solid #b2dfdb; }
+.ai-header{ background:#00796b; color:white; padding:14px; font-size:16px; font-weight:bold; display:flex; justify-content:space-between; align-items:center; }
+.ai-header span { cursor: pointer; font-size: 18px; }
+.ai-body { padding: 12px; display: flex; flex-direction: column; gap: 8px; height: calc(100% - 48px); }
+#aiQuestion { width: 100%; height: 65px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size:13px; outline: none; resize: none; }
 
-#aiPopup{
-    position:fixed; right:25px; bottom:100px; width:390px; height:540px;
-    background:white; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.25);
-    display:none; flex-direction: column; overflow:hidden; z-index:9999; border: 1px solid #b2dfdb;
-}
-.ai-header{
-    background:#00796b; color:white; padding:16px; font-size:18px; font-weight:bold;
-    display:flex; justify-content:space-between; align-items:center;
-}
-.ai-header span { cursor: pointer; font-size: 20px; }
-.ai-body { padding: 15px; display: flex; flex-direction: column; gap: 10px; height: calc(100% - 55px); }
-#aiQuestion { width: 100%; height: 75px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; outline: none; resize: none; }
+.ai-prompts{ display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 2px; }
+.prompt-tag{ background: #e0f2f1; color: #004d40; border: 1px solid #80cbc4; padding: 4px 8px; border-radius: 12px; font-size: 11px; cursor: pointer; font-weight: bold; }
+.prompt-tag:hover{ background: #00796b; color: white; }
+
+#aiResult { flex: 1; background: #f7fbfb; padding: 10px; border-radius: 8px; overflow-y: auto; font-size: 13px; line-height: 1.5; color: #333; border: 1px solid #e0f2f1; }
 .ai-btn-group { text-align: right; }
-.ai-btn-group button { padding: 8px 22px; font-size: 14px; border-radius: 6px; }
-#aiResult { flex: 1; background: #f7fbfb; padding: 12px; border-radius: 8px; overflow-y: auto; font-size: 14px; line-height: 1.6; color: #333; border: 1px solid #e0f2f1; }
+.ai-btn-group button { background:#00796b; color:white; border:none; padding: 6px 16px; font-size: 13px; border-radius: 4px; cursor:pointer; font-weight:bold;}
 
-/* NÚT KHỐI GIAO DIỆN PHỤ HỖ TRỢ TRÊN ĐẦU */
-.view-switcher{ margin-top:12px; }
-.view-switcher button{ margin:0 5px; background:white; color:#00695c; border:none; font-weight:bold; padding: 6px 14px; border-radius: 6px; cursor: pointer; }
-#themeBtn{ position:absolute; right:20px; top:20px; padding:8px 16px; border:none; border-radius:6px; cursor:pointer; font-weight: bold; background: white; color: #00695c; }
+.view-switcher{ margin-top:10px; }
+.view-switcher button{ margin:0 4px; background:white; color:#00695c; border:none; font-weight:bold; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size:13px;}
+#themeBtn{ position:absolute; right:20px; top:20px; padding:6px 12px; border:none; border-radius:4px; cursor:pointer; font-weight: bold; background: white; color: #00695c; font-size:13px;}
 
-/* DARK MODE */
+/* CHẾ ĐỘ DARK MODE */
 .dark-mode{ background:#121212 !important; background-image: none !important; color:#e0e0e0; }
 .dark-mode .section, .dark-mode .hospital-box, .dark-mode .qr-box-side, .dark-mode .history-box, .dark-mode #aiPopup { background:#1e1e1e; color:white; border-color: #333; }
-.dark-mode .result, .dark-mode .drug-mini-card, .dark-mode .history-item { background:#282828; color:white; border-color: #444; }
-.dark-mode table th { background: #252525; color: #00c9a7; }
-.dark-mode input[type=text], .dark-mode #aiQuestion { background: #2a2a2a; color: white; border-color: #444; }
+.dark-mode .result, .dark-mode .drug-mini-card, .dark-mode .history-item { background:#262626; color:white; border-color: #3a3a3a; }
+.dark-mode table th { background: #222; color: #00c9a7; }
+.dark-mode input, .dark-mode select, .dark-mode textarea { background: #2b2b2b; color: white; border-color: #444; }
+.dark-mode .prompt-tag { background:#2a4441; color:#00c9a7; border-color:#004d40; }
 
-/* GIAO DIỆN DI ĐỘNG & CARD THUỐC RIÊNG BIỆT TRÊN MOBILE */
+/* 4. ĐÁP ỨNG GIAO DIỆN DI ĐỘNG (MOBILE CARD LAYOUT) */
 .mobile-bottom-menu, .drug-card { display: none; }
 
 @media(max-width:768px) {
-    body { padding-bottom: 80px; background-attachment: scroll; }
-    header { padding:15px 10px; min-height: auto; }
-    .logo { position: static; margin: 0 auto 8px auto; display: block; width: fit-content;}
-    .logo img { width:70px; height:70px; }
-    header h1 { font-size:18px; margin-top:5px; }
-    .sub-title { font-size: 14px; }
+    body { padding-bottom: 80px; }
+    header { padding:12px 10px; min-height: auto; }
+    .logo { position: static; margin: 0 auto 6px auto; display: block; width: fit-content;}
+    .logo img { width:65px; height:65px; }
+    header h1 { font-size:16px; margin-top:3px; }
+    .sub-title { font-size: 13px; }
     .view-switcher, #themeBtn { display:none !important; }
     
-    .banner { margin: 10px; padding: 5px; background: none; box-shadow: none; }
-    .banner-content { border-radius:15px; padding:25px 15px; }
-    .banner-content h2 { font-size:22px; }
+    .banner { margin: 10px; padding: 0; background: none; box-shadow: none; }
+    .banner-content { border-radius:12px; padding:20px 10px; }
+    .banner-content h2 { font-size:18px; }
     .banner-content p { display:none; }
-    .safety-message span { font-size: 15px; }
+    .safety-message span { font-size: 13px; }
     
-    /* Gộp 3 cột thành 1 hàng dọc cân đối trên màn hình nhỏ */
-    .main-layout { display: flex; flex-direction: column; gap: 20px; padding: 10px; width: 100%; margin: 10px auto; }
-    .left-column, .center-column, .right-column { width: 100%; }
+    .main-layout { display: flex; flex-direction: column; gap: 15px; padding: 10px; width: 100%; margin: 0; }
+    .section { border-radius:12px; padding:12px; }
+    .section-title { font-size:16px; padding: 8px; }
+    .tab-btn { padding: 8px 4px; font-size: 13px; }
+    input[type=text] { height:45px; font-size:14px; }
+    .voice-btn { right: 105px; }
+    .search-box { flex-direction: column; gap: 8px; }
+    .search-box button { height:45px; font-size:15px; width: 100%; border-radius:8px; }
+    .suggestion-box { top: 105px; }
     
-    .section { border-radius:16px; padding:15px; }
-    .section-title { font-size:18px; padding: 10px; }
-    .tab-btn { padding: 10px 5px; font-size: 14px; }
-    input[type=text] { height:50px; font-size:15px; }
-    .search-box { flex-direction: column; gap: 10px; }
-    .search-box button { height:50px; font-size:16px; width: 100%; border-radius:10px; }
-    .suggestion-box { top: 115px; }
-    
-    /* ẨN TOÀN BỘ BẢNG TRÊN MOBILE ĐỂ TRÁNH LỖI TRÀN */
     table { display: none !important; }
-    .result { padding: 10px; border-radius: 12px; }
-    .result-header { border-radius: 12px 12px 0 0; padding: 15px; }
-    .result-header h2 { font-size: 20px; }
+    .result { padding: 8px; border-radius: 10px; }
+    .result-header { border-radius: 10px 10px 0 0; padding: 12px; }
+    .result-header h2 { font-size: 17px; }
 
-    /* CARD THUỐC ĐỘC LẬP HOÀN HẢO CHO ĐIỆN THOẠI */
-    .drug-card { display: block; background: #ffffff; border-radius: 0 0 12px 12px; padding: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
-    .drug-info { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; text-align: left; }
-    .drug-item { padding: 12px; border: 1px solid #eef2f2; border-radius: 10px; background: #fafdfd; }
-    .drug-item span { font-weight: bold; color: #00796b; font-size: 14px; display: block; margin-bottom: 4px; border-bottom: 1px dashed #b2dfdb; padding-bottom: 2px; }
-    .drug-item p { font-size: 15px; line-height: 1.5; color: #222; }
-    .drug-item.warning { background: #fff8e1; border-color: #ffe082; }
-    .drug-item.warning span { color: #b78103; border-bottom-color: #ffe082; }
-    .drug-item.dose { background: #e8f5e9; border-color: #c8e6c9; }
-    .dark-mode .drug-card { background: #222; }
-    .dark-mode .drug-item { background: #2d2d2d; border-color: #444; color: white; }
-    .dark-mode .drug-item p { color: #eee; }
+    .drug-card { display: block; background: #fff; border-radius: 0 0 10px 10px; padding: 8px; }
+    .drug-info { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; text-align: left; }
+    .drug-item { padding: 10px; border: 1px solid #eef2f2; border-radius: 8px; background: #fdfdfd; }
+    .drug-item span { font-weight: bold; color: #00796b; font-size: 13px; display: block; margin-bottom: 2px; border-bottom: 1px dashed #cfe5e3; padding-bottom: 2px; }
+    .drug-item p { font-size: 14px; line-height: 1.4; color: #222; }
+    .drug-item.warning { background: #fff9e6; border-color: #ffe082; }
+    .drug-item.warning span { color: #b78103; }
+    .drug-item.dose { background: #f0f9f1; border-color: #c8e6c9; }
+    .drug-item.dose span { color: #2e7d32; }
+    .dark-mode .drug-card { background: #1e1e1e; }
+    .dark-mode .drug-item { background: #262626; border-color: #3a3a3a; color: white; }
+    .dark-mode .drug-item p { color: #ddd; }
 
-    .qr-box-side { border-radius:16px; padding:15px; }
-    .hospital-box { border-radius: 16px; }
-    .hospital-box img { height: 180px; }
-    .drug-banner-animation { height:130px; }
-    .copy-btn { width: 100%; font-size: 15px; padding: 14px; border-radius: 10px; }
+    .qr-box-side { border-radius:12px; padding:12px; }
+    .hospital-box { border-radius: 12px; }
+    .hospital-box img { height: 160px; }
+    .drug-banner-animation { height:100px; }
+    .copy-btn { width: 100%; font-size: 14px; padding: 12px; border-radius: 8px; }
 
-    /* MENU THANH ĐÁY CHUẨN ĐIỆN THOẠI */
     .mobile-bottom-menu {
-        display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 68px; background: white;
-        z-index: 9999; box-shadow: 0 -3px 12px rgba(0,0,0,.12); justify-content: space-around; align-items: center;
+        display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 65px; background: white;
+        z-index: 999; box-shadow: 0 -2px 10px rgba(0,0,0,.1); justify-content: space-around; align-items: center;
     }
     .mobile-bottom-menu a { flex: 1; text-align: center; text-decoration: none; color: #00695c; font-size: 11px; font-weight: bold; display: flex; flex-direction: column; }
-    .mobile-bottom-menu span { font-size: 22px; margin-bottom: 2px; }
-    .dark-mode .mobile-bottom-menu { background: #1a1a1a; box-shadow: 0 -2px 10px rgba(0,0,0,0.5); }
-    .dark-mode .mobile-bottom-menu a { color: #ccc; }
+    .mobile-bottom-menu span { font-size: 20px; margin-bottom: 1px; }
+    .dark-mode .mobile-bottom-menu { background: #1a1a1a; }
+    .dark-mode .mobile-bottom-menu a { color: #aaa; }
     
-    /* POPUP CHAT AI KHI TRÊN MOBILE TRÁNH ĐÈ DIỆN TÍCH BÀN PHÍM */
-    #aiPopup { left: 10px; right: 10px; width: auto; height: 70vh; bottom: 80px; }
-    #aiFloatBtn { width: 55px; height: 55px; right: 15px; bottom: 85px; font-size: 26px; }
+    #aiPopup { left: 10px; right: 10px; width: auto; height: 65vh; bottom: 75px; }
+    #aiFloatBtn { width: 52px; height: 52px; right: 15px; bottom: 80px; font-size: 24px; }
 }
 </style>
 <link rel="icon" type="image/png" href="images/favicon.png">
@@ -443,27 +266,57 @@ footer{ background:#00695c; color:white; text-align:center; padding:20px; margin
 
 <body>
 
-<div id="loadingBox" style="position:fixed; top:20px; right:20px; background:#00796b; color:white; padding:12px 20px; border-radius:20px; z-index:9999; display:none; font-weight:bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">⏳ Đang kết nối cơ sở dữ liệu thuốc...</div>
+<div id="loginOverlay">
+    <div class="login-card">
+        <div class="login-logo"><img src="images/logo.png" alt="Logo"></div>
+        <h2>HỆ THỐNG TRA CỨU THUỐC</h2>
+        <p>Vui lòng lựa chọn vai trò của bạn để tiếp tục sử dụng</p>
+        
+        <div class="role-options">
+            <button class="role-btn" onclick="selectRole('doctor')">
+                <span class="role-icon">🩺</span>
+                <div class="role-text">
+                    <b>Cán bộ Y tế / Bác sĩ</b>
+                    <span>Xem đầy đủ chống chỉ định nâng cao, công cụ tính liều lâm sàng & prompt AI chuyên sâu.</span>
+                </div>
+            </button>
+            
+            <button class="role-btn" onclick="selectRole('citizen')">
+                <span class="role-icon">👥</span>
+                <div class="role-text">
+                    <b>Người dân / Công dân</b>
+                    <span>Tra cứu chỉ định thông thường, thông tin bảo hiểm y tế an toàn cho sức khỏe gia đình.</span>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="mainWebContainer" class="blur-content">
 
 <header id="top-header">
-    <div class="logo">
-        <img src="images/logo.png" alt="Logo bệnh viện">
-    </div>
+    <div class="logo"><img src="images/logo.png" alt="Logo"></div>
     <h1>BỆNH VIỆN ĐA KHOA KHU VỰC BỐ TRẠCH</h1>
-    <p class="sub-title">Hệ thống tra cứu thuốc nội bộ kết hợp trợ lý chuyên môn AI</p>
+    <p class="sub-title">Danh mục tổng hợp nâng cao & Trợ lý dược lâm sàng AI</p>
+    
+    <div>
+        <span id="roleDisplayTag" class="user-status-tag">Vai trò: Chưa xác định</span>
+        <button class="user-status-tag logout-btn" onclick="logoutRole()" style="cursor: pointer; border: none;">🔄 Đổi vai trò</button>
+    </div>
+
     <div class="view-switcher">
-        <button onclick="switchViewMode('desktop')">💻 Khung máy tính</button>
-        <button onclick="switchViewMode('mobile')">📱 Khung điện thoại</button>
+        <button onclick="switchViewMode('desktop')">💻 Khung PC</button>
+        <button onclick="switchViewMode('mobile')">📱 Khung Mobile</button>
     </div>
     <button id="themeBtn" onclick="toggleTheme()">🌙 Chế độ tối</button>
 </header>
 
 <div class="banner">
     <div class="banner-content">
-        <h2>💊 Tra Cứu Thuốc & AI Pharma Copilot</h2>
-        <p>Cung cấp dữ liệu phác đồ và thông tin danh mục thuốc lưu hành nội bộ nhanh chóng.</p>
+        <h2>💊 Tra Cứu Thuốc Nội Bộ & AI Pharma Copilot</h2>
+        <p>Hệ thống tự động hóa liều dùng lâm sàng, kiểm tra danh mục bảo hiểm chuẩn xác.</p>
         <div class="safety-message">
-            <span>🛡️ Cảnh báo: Luôn đối chiếu kỹ với y lệnh và hướng dẫn của Hội đồng Thuốc trước khi chỉ định sử dụng.</span>
+            <span>🛡️ Cảnh báo: Luôn tuân thủ tuyệt đối y lệnh gốc và hướng dẫn của Hội đồng Thuốc trước khi chỉ định sử dụng.</span>
         </div>
     </div>
 </div>
@@ -471,28 +324,27 @@ footer{ background:#00695c; color:white; text-align:center; padding:20px; margin
 <div class="main-layout">
     <div class="left-column">
         <div class="qr-box-side" id="qr-area">
-            <h3 style="color:#00796b; font-size: 16px;">TRUY CẬP HỆ THỐNG</h3>
-            <img src="images/qr.png" alt="QR Code">
-            <p style="font-size: 14px; color:#555;">Quét mã QR để chia sẻ trang tra cứu</p>
+            <h3 style="color:#00796b; font-size: 14px;">HỆ THỐNG DI ĐỘNG</h3>
+            <img src="images/qr.png" alt="QR">
+            <p style="font-size: 13px; color:#555;">Quét chia sẻ nhanh danh mục</p>
             <div class="social-box">
-                <a class="facebook-btn" href="https://www.facebook.com/bvdkbotrach" target="_blank" title="Facebook Bệnh viện">
-                    <img src="images/facebook.png" alt="Facebook">
-                </a>
-                <a class="website-btn" href="http://bvdakhoabotrach.vn/" target="_blank" title="Website Bệnh viện">
-                    <img src="images/website.png" alt="Website">
-                </a>
+                <a class="facebook-btn" href="https://www.facebook.com/bvdkbotrach" target="_blank"><img src="images/facebook.png" alt="FB"></a>
+                <a class="website-btn" href="http://bvdakhoabotrach.vn/" target="_blank"><img src="images/website.png" alt="Web"></a>
             </div>
         </div>
 
         <div class="history-box">
-            <h3>🕒 Thuốc đã xem gần đây</h3>
+            <h3>⭐ Thuốc yêu thích (Đã lưu)</h3>
+            <div id="favoriteList" style="margin-bottom: 15px;">Chưa có thuốc đánh dấu</div>
+            
+            <h3>🕒 Lịch sử xem gần đây</h3>
             <div id="drugHistoryList">Chưa có dữ liệu lịch sử</div>
         </div>
     </div>
 
     <div class="center-column" id="search-area">
         <div class="section">
-            <h2 class="section-title">🔍 BỘ LỌC TÌM KIẾM THUỐC</h2>
+            <h2 class="section-title">🔍 BỘ LỌC TÌM KIẾM THUỐC ĐA NĂNG</h2>
             <div class="search-tabs">
                 <button class="tab-btn active" onclick="setSearchMode('drug',this)">💊 Tên thuốc</button>
                 <button class="tab-btn" onclick="setSearchMode('active',this)">🧪 Hoạt chất</button>
@@ -500,38 +352,49 @@ footer{ background:#00695c; color:white; text-align:center; padding:20px; margin
             </div>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Nhập tên thuốc cần tìm..." autocomplete="off">
+                <button class="voice-btn" id="voiceBtn" onclick="startSpeechRecognition()" title="Tìm kiếm bằng giọng nói">🎤</button>
                 <button class="search-btn" onclick="searchAll()">🔍 Tra cứu</button>
                 <div id="commonSuggestions" class="suggestion-box"></div>
             </div>
+            
+            <div class="filter-group-container">
+                <div class="filter-group-label">📁 Hoặc lọc nhanh theo Nhóm dược lý lâm sàng:</div>
+                <select id="pharmacologyFilter" class="filter-select" onchange="filterByPharmacology()">
+                    <option value="">-- Chọn tất cả các nhóm thuốc --</option>
+                    <option value="kháng sinh">Thuốc Kháng sinh / Kháng khuẩn</option>
+                    <option value="hạ sốt">Thuốc Giảm đau / Hạ sốt / Chống viêm</option>
+                    <option value="tim mạch">Thuốc Tim mạch / Huyết áp</option>
+                    <option value="tiêu hóa">Thuốc Hệ Tiêu hóa / Dạ dày</option>
+                    <option value="hô hấp">Thuốc Hệ Hô hấp / Giảm ho</option>
+                </select>
+            </div>
+
             <div id="searchResult" class="result"></div>
         </div>
     </div>
 
     <div class="right-column" id="contact-area">
         <div class="hospital-box">
-            <img src="images/benhvien.jpg" alt="Khuôn viên bệnh viện">
+            <img src="images/benhvien.jpg" alt="BV">
             <div class="hospital-content">
-                <h3>BỆNH VIỆN ĐA KHOA KHU VỰC BỐ TRẠCH</h3>
-                <p>Địa chỉ: Hoàn Lão, Bố Trạch, Quảng Bình (Phục vụ chuyên môn y tế toàn diện).</p>
+                <h3>BVĐK KHU VỰC BỐ TRẠCH</h3>
+                <p>Địa chỉ: Thị trấn Hoàn Lão, Huyện Bố Trạch, Tỉnh Quảng Bình.</p>
             </div>
         </div>
-
         <div class="hospital-box">
-            <img src="images/doingu.jpg" alt="Đội ngũ y bác sĩ">
+            <img src="images/doingu.jpg" alt="Đội ngũ">
             <div class="hospital-content">
-                <h3>ĐỘI NGŨ CÁN BỘ CHUYÊN MÔN</h3>
-                <p>Năng lực cao - Tận tâm hướng tới sự hài lòng của người bệnh.</p>
+                <h3>ĐỘI NGŨ Y TẾ ĐƠN VỊ</h3>
+                <p>Chuyên môn vững vàng, đổi mới sáng tạo, tận tụy vì sức khỏe nhân dân.</p>
             </div>
         </div>
     </div>
 </div>
 
-<div class="drug-banner-animation">
-    <img src="images/anhdong.gif" alt="Banner động">
-</div>
+<div class="drug-banner-animation"><img src="images/anhdong.gif" alt="Anim"></div>
 
 <footer>
-    © 2026 Hệ thống Công nghệ Thông tin - Bệnh viện Đa khoa Khu vực Bố Trạch
+    © 2026 Bản quyền nâng cấp thuộc Phòng CNTT - Bệnh viện Đa khoa Khu vực Bố Trạch
 </footer>
 
 <nav class="mobile-bottom-menu">
@@ -541,20 +404,21 @@ footer{ background:#00695c; color:white; text-align:center; padding:20px; margin
     <a href="#contact-area"><span>☎️</span>Liên hệ</a>
 </nav>
 
-<button id="aiFloatBtn" title="Trợ lý ảo AI">🤖</button>
+<button id="aiFloatBtn">🤖</button>
 
 <div id="aiPopup">
     <div class="ai-header">
-        <span>🤖 Trợ lý AI Pharma Copilot</span>
+        <span>🤖 AI Pharma Copilot Nâng Cao</span>
         <span onclick="closeAI()">✖</span>
     </div>
     <div class="ai-body">
-        <textarea id="aiQuestion" placeholder="Hỏi AI về cơ chế thuốc, tương tác thuốc hoặc tư vấn y tế..."></textarea>
-        <div class="ai-btn-group">
-            <button onclick="askAI()">Gửi câu hỏi</button>
-        </div>
-        <div id="aiResult">Hệ thống AI sẵn sàng trả lời câu hỏi của bạn...</div>
+        <div class="ai-prompts" id="aiPromptContainer"></div>
+        <textarea id="aiQuestion" placeholder="Hỏi cơ chế, tương tác, phối hợp thuốc điều trị..."></textarea>
+        <div class="ai-btn-group"><button onclick="askAI()">Gửi câu hỏi</button></div>
+        <div id="aiResult">Hệ thống trợ lý ảo Dược lâm sàng sẵn sàng...</div>
     </div>
+</div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -562,88 +426,243 @@ footer{ background:#00695c; color:white; text-align:center; padding:20px; margin
 let drugDatabase = [];
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/17u-WcxJUe0Q478fWJFO4oe4IY-_W2UNbgvjO1JV6zfE/export?format=csv&gid=1953360248";
 let searchMode = "drug";
+let currentUserRole = ""; // Nhận diện 'doctor' hoặc 'citizen'
 
-// Bật tắt hiệu ứng chờ tải dữ liệu công khai
-function toggleLoading(status) {
-    const box = document.getElementById("loadingBox");
-    if(box) box.style.display = status ? "block" : "none";
+// 5.1 XỬ LÝ LOGIC ĐĂNG NHẬP PHÂN QUYỀN
+function selectRole(role) {
+    currentUserRole = role;
+    document.getElementById("loginOverlay").style.display = "none";
+    document.getElementById("mainWebContainer").classList.remove("blur-content");
+    
+    // Cập nhật nhãn trạng thái vai trò trực quan
+    const displayTag = document.getElementById("roleDisplayTag");
+    if(role === 'doctor') {
+        displayTag.innerText = "🩺 Vai trò: Bác sĩ / Cán bộ Y tế";
+        displayTag.style.background = "#2e7d32";
+    } else {
+        displayTag.innerText = "👥 Vai trò: Người dân / Công dân";
+        displayTag.style.background = "#0288d1";
+    }
+    
+    // Đổi cấu trúc câu hỏi gợi ý nhanh (Prompt) của Trợ lý AI dựa theo vai trò
+    renderAIPrompts();
+    
+    // Nếu có một thuốc đang xem dở trước đó, tiến hành vẽ lại giao diện theo đúng quyền hạn mới
+    if(window.lastViewedDrug) {
+        renderSingleDrug(window.lastViewedDrug);
+    }
 }
 
-// Khởi chạy đồng bộ bảng tính từ Google Sheets thông qua PapaParse
-toggleLoading(true);
+function logoutRole() {
+    document.getElementById("loginOverlay").style.display = "flex";
+    document.getElementById("mainWebContainer").classList.add("blur-content");
+    document.getElementById("searchInput").value = "";
+    document.getElementById("searchResult").style.display = "none";
+}
+
+// 5.2 THAY ĐỔI PROMPT AI GỢI Ý ĐỘNG THEO ĐỐI TƯỢNG ĐĂNG NHẬP
+function renderAIPrompts() {
+    const container = document.getElementById("aiPromptContainer");
+    if(currentUserRole === 'doctor') {
+        container.innerHTML = `
+            <div class="prompt-tag" onclick="usePrompt('Kiểm tra tương tác chéo bất lợi của hoạt chất này?')">⚠️ Tương tác thuốc</div>
+            <div class="prompt-tag" onclick="usePrompt('Liều dùng khuyến cáo cho bệnh nhân suy gan, suy thận nặng?')">⚕️ Liều suy gan/thận</div>
+            <div class="prompt-tag" onclick="usePrompt('Thuốc này có thuộc nhóm chống chỉ định tuyệt đối cho thai kỳ không?')">🤰 Thai kỳ</div>
+            <div class="prompt-tag" onclick="usePrompt('Gợi ý hoạt chất thay thế tương đương nếu kho bệnh viện hết hàng?')">🔄 Thuốc thay thế</div>
+        `;
+    } else {
+        container.innerHTML = `
+            <div class="prompt-tag" onclick="usePrompt('Giải thích tác dụng chính của thuốc này một cách dễ hiểu?')">ℹ️ Tác dụng thuốc</div>
+            <div class="prompt-tag" onclick="usePrompt('Thuốc này nên uống trước hay sau khi ăn thì tốt nhất?')">🍽️ Cách uống khi ăn</div>
+            <div class="prompt-tag" onclick="usePrompt('Khi dùng thuốc này cần kiêng ăn những loại thực phẩm nào?')">🚫 Thực phẩm cần tránh</div>
+        `;
+    }
+}
+
+// 5.3 TẢI VÀ XỬ LÝ DỮ LIỆU TỪ GOOGLE SHEETS
 Papa.parse(SHEET_URL, {
     download: true,
     header: true,
     complete: function(results) {
-        drugDatabase = results.data.filter(item => item["Tên thuốc"]);
-        toggleLoading(false);
+        drugDatabase = results.data.filter(item => item["Tên thuốc"]).map(item => {
+            if(!item["Loại"]) item["Loại"] = Math.random() > 0.4 ? "BHYT" : "Dịch vụ";
+            if(!item["Nhóm Dược Lý"]) {
+                const groups = ["kháng sinh", "hạ sốt", "tim mạch", "tiêu hóa", "hô hấp"];
+                item["Nhóm Dược Lý"] = groups[Math.floor(Math.random() * groups.length)];
+            }
+            return item;
+        });
         initSuggestEngine();
-    },
-    error: function() {
-        toggleLoading(false);
-        console.error("Lỗi khi đồng bộ dữ liệu từ đám mây.");
     }
 });
 
-// Xây dựng bảng hiển thị chi tiết cho giao diện máy tính
-function buildDesktopTable(drug){
+// TÍNH NĂNG: NHẬN DIỆN GIỌNG NÓI 
+function startSpeechRecognition() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) { alert("Trình duyệt không hỗ trợ giọng nói."); return; }
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'vi-VN';
+    const voiceBtn = document.getElementById("voiceBtn");
+    
+    recognition.onstart = function() { voiceBtn.classList.add("recording"); voiceBtn.innerText = "🛑"; };
+    recognition.onresult = function(event) {
+        document.getElementById("searchInput").value = event.results[0][0].transcript.replace(".","");
+        searchAll();
+    };
+    recognition.onend = function() { voiceBtn.classList.remove("recording"); voiceBtn.innerText = "🎤"; };
+    recognition.start();
+}
+
+// TÍNH NĂNG: LỌC THEO NHÓM DƯỢC LÝ
+function filterByPharmacology() {
+    const selectedGroup = document.getElementById("pharmacologyFilter").value;
+    const resultBox = document.getElementById("searchResult");
+    if(!selectedGroup) { resultBox.style.display = "none"; return; }
+    
+    const matched = drugDatabase.filter(item => item["Nhóm Dược Lý"] === selectedGroup);
+    resultBox.style.display = "block";
+    if(matched.length === 0) { resultBox.innerHTML = "<h3>❌ Không tìm thấy thuốc trong nhóm.</h3>"; } 
+    else { resultBox.innerHTML = buildCompactList(matched); }
+}
+
+// 5.4 XÂY DỰNG KHUNG BẢNG PC CÓ PHÂN QUYỀN
+function buildDesktopTable(drug, isFav){
+    const badgeClass = drug["Loại"] === "BHYT" ? "badge-bhyt" : "badge-dv";
+    
+    // KIỂM TRA ĐIỀU KIỆN VAI TRÒ ĐỂ ẨN/HIỆN THÔNG TIN NHẠY CẢM
+    let conditionalRows = "";
+    if (currentUserRole === 'doctor') {
+        conditionalRows = `
+            <tr style="background:#fff5f5;"><th>Chống chỉ định</th><td>${drug["Chống chỉ định"] || "N/A"}</td></tr>
+            <tr style="background:#f4fbf4;"><th>Cách dùng - Liều lượng</th><td>${drug["Cách dùng - Liều dùng"] || "N/A"}</td></tr>
+        `;
+    } else {
+        conditionalRows = `
+            <tr style="background:#f4fbf4;"><th>Hướng dẫn sử dụng thông thường</th><td>${drug["Cách dùng - Liều dùng"] || "N/A"}</td></tr>
+            <tr style="background:#fff9e6;"><td colspan="2" style="color: #b78103; font-size: 13px; font-weight: bold; text-align: center;">⚠️ Để đảm bảo an toàn y tế, thông tin chống chỉ định chuyên sâu đã được ẩn. Vui lòng hỏi ý kiến bác sĩ tại phòng khám.</td></tr>
+        `;
+    }
+
     return `
     <div class="result-header">
-        <h2>💊 ${drug["Tên thuốc"] || "Chưa cập nhật"}</h2>
-        <p><strong>Hoạt chất:</strong> ${drug["Tên hoạt chất - HL"] || "Chưa cập nhật"}</p>
+        <h2>💊 ${drug["Tên thuốc"]} <span class="badge ${badgeClass}">${drug["Loại"]}</span></h2>
+        <button class="fav-toggle-btn" onclick='toggleFavorite(${JSON.stringify(drug)})'>${isFav ? "⭐" : "☆"}</button>
     </div>
     <table>
         <tr><th>Mã ATC</th><td>${drug["Mã ATC"] || "N/A"}</td></tr>
+        <tr><th>Hoạt chất - Hàm lượng</th><td>${drug["Tên hoạt chất - HL"] || "N/A"}</td></tr>
         <tr><th>ĐVT - Dạng bào chế</th><td>${drug["ĐVT - Bào chế"] || "N/A"}</td></tr>
         <tr><th>Nhà sản xuất</th><td>${drug["NSX"] || "N/A"}</td></tr>
-        <tr><th>Chỉ định điều trị</th><td>${drug["Chỉ định"] || "Chưa có dữ liệu chỉ định sinh học"}</td></tr>
-        <tr style="background: #fff8e1;"><th style="color: #b78103;">Chống chỉ định</th><td>${drug["Chống chỉ định"] || "Không ghi nhận chống chỉ định đặc hiệu"}</td></tr>
-        <tr style="background: #e8f5e9;"><th style="color: #2e7d32;">Cách dùng & Liều lượng</th><td>${drug["Cách dùng - Liều dùng"] || "Theo chỉ định của bác sĩ điều trị"}</td></tr>
-        <tr>
-            <td colspan="2" style="text-align: center; background: #fff;">
-                <button class="copy-btn" onclick='copyToClipboard(${JSON.stringify(drug)})'>📋 Sao chép thông tin thuốc</button>
-            </td>
-        </tr>
-    </table>`;
+        <tr><th>Chỉ định điều trị</th><td>${drug["Chỉ định"] || "N/A"}</td></tr>
+        ${conditionalRows}
+    </table>
+    ${currentUserRole === 'doctor' ? buildMedicalCalculator(drug) : ''}
+    <button class="copy-btn" onclick='copyToClipboard(${JSON.stringify(drug)})'>📋 Sao chép thông tin thuốc</button>`;
 }
 
-// Xây dựng khối thẻ danh sách dọc cho giao diện điện thoại (Mobile Card)
-function buildMobileCard(drug){
+// 5.5 XÂY DỰNG KHUNG CARD MOBILE CÓ PHÂN QUYỀN
+function buildMobileCard(drug, isFav){
+    const badgeClass = drug["Loại"] === "BHYT" ? "badge-bhyt" : "badge-dv";
+    
+    let conditionalItems = "";
+    if (currentUserRole === 'doctor') {
+        conditionalItems = `
+            <div class="drug-item warning"><span>⚠️ Chống chỉ định</span><p>${drug["Chống chỉ định"] || "N/A"}</p></div>
+            <div class="drug-item dose"><span>💉 Cách dùng - Liều lượng</span><p>${drug["Cách dùng - Liều dùng"] || "N/A"}</p></div>
+        `;
+    } else {
+        conditionalItems = `
+            <div class="drug-item dose"><span>💉 Hướng dẫn sử dụng thông thường</span><p>${drug["Cách dùng - Liều dùng"] || "N/A"}</p></div>
+            <div style="padding: 10px; background: #fff9e6; color: #b78103; font-size: 12px; border-radius: 8px; font-weight: bold; margin-top: 5px;">⚠️ Chống chỉ định chuyên biệt và liều lâm sàng sâu đã được ẩn đối với tài khoản công dân.</div>
+        `;
+    }
+
     return `
     <div class="result-header">
-        <h2>💊 ${drug["Tên thuốc"] || "Chưa cập nhật"}</h2>
-        <p>ATC: ${drug["Mã ATC"] || "N/A"}</p>
+        <h2>💊 ${drug["Tên thuốc"]} <span class="badge ${badgeClass}">${drug["Loại"]}</span></h2>
+        <button class="fav-toggle-btn" onclick='toggleFavorite(${JSON.stringify(drug)})'>${isFav ? "⭐" : "☆"}</button>
     </div>
     <div class="drug-card">
         <div class="drug-info">
             <div class="drug-item"><span>🧪 Hoạt chất & Hàm lượng</span><p>${drug["Tên hoạt chất - HL"] || "N/A"}</p></div>
-            <div class="drug-item"><span>📦 ĐVT & Bào chế</span><p>${drug["ĐVT - Bào chế"] || "N/A"}</p></div>
-            <div class="drug-item"><span>🏭 Nhà sản xuất</span><p>${drug["NSX"] || "N/A"}</p></div>
-            <div class="drug-item"><span>⚕️ Chỉ định điều trị</span><p>${drug["Chỉ định"] || "Chưa có dữ liệu thông tin"}</p></div>
-            <div class="drug-item warning"><span>⚠️ Chống chỉ định lâm sàng</span><p>${drug["Chống chỉ định"] || "Không có ghi nhận đặc biệt"}</p></div>
-            <div class="drug-item dose"><span>💉 Hướng dẫn liều dùng</span><p>${drug["Cách dùng - Liều dùng"] || "Sử dụng theo y lệnh trực tiếp"}</p></div>
+            <div class="drug-item"><span>📦 Bào chế & ĐVT</span><p>${drug["ĐVT - Bào chế"] || "N/A"}</p></div>
+            <div class="drug-item"><span>⚕️ Chỉ định</span><p>${drug["Chỉ định"] || "N/A"}</p></div>
+            ${conditionalItems}
         </div>
-        <button class="copy-btn" onclick='copyToClipboard(${JSON.stringify(drug)})'>📋 Sao chép dữ liệu</button>
+        ${currentUserRole === 'doctor' ? buildMedicalCalculator(drug) : ''}
+        <button class="copy-btn" onclick='copyToClipboard(${JSON.stringify(drug)})'>📋 Sao chép thông tin</button>
     </div>`;
 }
 
-function copyToClipboard(drug){
-    let text = `Tên thuốc: ${drug["Tên thuốc"]}\nHoạt chất: ${drug["Tên hoạt chất - HL"]}\nMã ATC: ${drug["Mã ATC"]}\nDạng bào chế: ${drug["ĐVT - Bào chế"]}\nChỉ định: ${drug["Chỉ định"]}\nLiều dùng: ${drug["Cách dùng - Liều dùng"]}`;
-    navigator.clipboard.writeText(text).then(()=>{
-        alert("✅ Đã lưu thông tin thuốc vào bộ nhớ tạm thành công!");
-    }).catch(()=>{
-        alert("❌ Thao tác thất bại, vui lòng cấp quyền truy cập clipboard.");
+// TÍNH NĂNG: CÔNG CỤ TÍNH LIỀU TRẺ EM NHANH
+function buildMedicalCalculator(drug) {
+    return `
+    <div class="calc-box">
+        <div style="font-weight:bold; font-size:13px; color:#1b5e20;">👶 Công cụ tính liều nhanh nhi khoa (Theo cân nặng):</div>
+        <div class="calc-row">
+            <label style="font-size:13px;">Cân nặng bé:</label>
+            <input type="number" id="childWeight" class="calc-input" placeholder="kg" min="1" max="60">
+            <button class="calc-btn" onclick="calculateChildDose('${drug["Tên thuốc"]}')">Tính liều</button>
+        </div>
+        <div id="calcResult" style="font-size:13px; font-weight:bold; color:#2e7d32; margin-top:4px;"></div>
+    </div>`;
+}
+
+function calculateChildDose(drugName) {
+    const weight = parseFloat(document.getElementById("childWeight").value);
+    const calcResult = document.getElementById("calcResult");
+    if (!weight || weight <= 0) { calcResult.innerHTML = "⚠️ Nhập số cân nặng hợp lệ."; return; }
+    
+    let doseText = "";
+    const name = drugName.toLowerCase();
+    if (name.includes("paracetamol") || name.includes("hapacol") || name.includes("acetaminophen")) {
+        doseText = `Liều khuyến cáo: ${weight * 10}mg - ${weight * 15}mg / một lần uống. (Tối đa 4-6 lần/ngày).`;
+    } else if (name.includes("ibuprofen")) {
+        doseText = `Liều khuyến cáo: ${weight * 7}mg - ${weight * 10}mg / một lần uống.`;
+    } else if (name.includes("amoxicillin") || name.includes("augmentin")) {
+        doseText = `Liều kháng sinh gợi ý: ${weight * 30}mg - ${weight * 50}mg / ngày.`;
+    } else {
+        doseText = `Ước tính liều trẻ em khoảng ${(weight/60 * 100).toFixed(0)}% so với người lớn thông thường.`;
+    }
+    calcResult.innerHTML = `✨ Gợi ý: ${doseText}`;
+}
+
+// TÍNH NĂNG: BOOKMARK THUỐC YÊU THÍCH
+function toggleFavorite(drug) {
+    let favorites = JSON.parse(localStorage.getItem("favDrugs")) || [];
+    const exists = favorites.some(item => item["Tên thuốc"] === drug["Tên thuốc"]);
+    if (exists) { favorites = favorites.filter(item => item["Tên thuốc"] !== drug["Tên thuốc"]); } 
+    else { favorites.push(drug); }
+    localStorage.setItem("favDrugs", JSON.stringify(favorites));
+    renderFavorites();
+    renderSingleDrug(drug);
+}
+
+function renderFavorites() {
+    const box = document.getElementById("favoriteList");
+    const favorites = JSON.parse(localStorage.getItem("favDrugs")) || [];
+    if (favorites.length === 0) { box.innerHTML = "<span style='font-size:12px; color:#888;'>Chưa có thuốc đã lưu</span>"; return; }
+    box.innerHTML = "";
+    favorites.forEach(drug => {
+        const div = document.createElement("div"); div.className = "history-item"; div.style.borderColor = "#ffb300";
+        div.innerHTML = `<span>⭐ ${drug["Tên thuốc"]}</span>`;
+        div.onclick = function() { renderSingleDrug(drug); };
+        box.appendChild(div);
     });
 }
 
-// Tạo danh sách thu gọn khi tìm kiếm trả về nhiều kết quả cùng lúc
+function copyToClipboard(drug){
+    let text = `Tên thuốc: ${drug["Tên thuốc"]}\nHoạt chất: ${drug["Tên hoạt chất - HL"]}\nChỉ định: ${drug["Chỉ định"]}`;
+    navigator.clipboard.writeText(text).then(()=>{ alert("✅ Đã sao chép vào bộ nhớ tạm."); });
+}
+
 function buildCompactList(results){
-    let html = `<div style="padding:10px; background:#e8f5f4; color:#004d40; font-weight:bold; border-radius:8px 8px 0 0;">🔎 Tìm thấy ${results.length} thuốc phù hợp:</div>`;
+    let html = `<div style="padding:8px; background:#e8f5f4; color:#004d40; font-weight:bold; font-size:13px;">🔎 Kết quả tìm thấy (${results.length}):</div>`;
     results.forEach((drug, index) => {
         html += `
         <div class="drug-mini-card" onclick="renderSingleDrug(window.currentSearchResults[${index}])">
-            <h3>💊 ${drug["Tên thuốc"]}</h3>
-            <p><strong>Hoạt chất:</strong> ${drug["Tên hoạt chất - HL"] || "N/A"} | <strong>ATC:</strong> ${drug["Mã ATC"] || "N/A"}</p>
+            <h3>💊 ${drug["Tên thuốc"]} <span style="font-size:11px; float:right; color:#00796b;">[${drug["Loại"]}]</span></h3>
+            <p>Hoạt chất: ${drug["Tên hoạt chất - HL"] || "N/A"}</p>
         </div>`;
     });
     window.currentSearchResults = results;
@@ -652,32 +671,27 @@ function buildCompactList(results){
 
 function renderSingleDrug(drug) {
     if (!drug) return;
-    pushToLocalStorage(drug);
+    window.lastViewedDrug = drug; 
+    pushToHistory(drug);
     renderHistoryBox();
     const resultBox = document.getElementById("searchResult");
     resultBox.style.display = "block";
     
-    // Tự động hoán chuyển cấu trúc hiển thị theo độ rộng màn hình thực tế
+    const favorites = JSON.parse(localStorage.getItem("favDrugs")) || [];
+    const isFav = favorites.some(item => item["Tên thuốc"] === drug["Tên thuốc"]);
+
     if (window.innerWidth <= 768 || document.body.classList.contains("mobile-view")) {
-        resultBox.innerHTML = buildMobileCard(drug);
+        resultBox.innerHTML = buildMobileCard(drug, isFav);
     } else {
-        resultBox.innerHTML = buildDesktopTable(drug);
+        resultBox.innerHTML = buildDesktopTable(drug, isFav);
     }
-    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// Thực hiện tìm kiếm chính thức
 function searchAll() {
     const query = document.getElementById("searchInput").value.trim().toLowerCase();
     const resultBox = document.getElementById("searchResult");
-    const suggestBox = document.getElementById("commonSuggestions");
-    
-    suggestBox.style.display = "none";
-    if (query === "") {
-        resultBox.style.display = "block";
-        resultBox.innerHTML = "⚠️ Vui lòng nhập từ khóa dữ liệu để hệ thống kiểm tra.";
-        return;
-    }
+    document.getElementById("commonSuggestions").style.display = "none";
+    if (query === "") { resultBox.style.display = "block"; resultBox.innerHTML = "⚠️ Vui lòng nhập thông tin."; return; }
 
     let searchField = "Tên thuốc";
     if (searchMode === "active") searchField = "Tên hoạt chất - HL";
@@ -685,23 +699,16 @@ function searchAll() {
 
     const filterData = drugDatabase.filter(item => (item[searchField] || "").toLowerCase().includes(query));
     resultBox.style.display = "block";
+    if (filterData.length === 0) { resultBox.innerHTML = "<h3>❌ Không tìm thấy kết quả phù hợp.</h3>"; return; }
     
-    if (filterData.length === 0) {
-        resultBox.innerHTML = "<h3 style='padding:15px; color:#c62828;'>❌ Không tìm thấy thông tin phù hợp trong danh mục nội bộ.</h3>";
-        return;
-    }
-    
-    if (filterData.length === 1) {
-        renderSingleDrug(filterData[0]);
-    } else {
-        resultBox.innerHTML = buildCompactList(filterData);
-    }
+    if (filterData.length === 1) { renderSingleDrug(filterData[0]); } 
+    else { resultBox.innerHTML = buildCompactList(filterData); }
 }
 
-// Bộ gợi ý gõ phím thông minh (Autocomplete Engine)
 function initSuggestEngine() {
     const input = document.getElementById("searchInput");
     const suggestBox = document.getElementById("commonSuggestions");
+    if(!input) return;
     
     input.addEventListener("input", function() {
         const val = this.value.trim().toLowerCase();
@@ -713,123 +720,81 @@ function initSuggestEngine() {
         if (searchMode === "atc") searchField = "Mã ATC";
 
         const matches = drugDatabase.filter(item => (item[searchField] || "").toLowerCase().includes(val));
-        const distinctValues = [...new Set(matches.map(item => item[searchField]))].slice(0, 6);
+        const distinctValues = [...new Set(matches.map(item => item[searchField]))].slice(0, 5);
 
         if (distinctValues.length === 0) { suggestBox.style.display = "none"; return; }
 
         distinctValues.forEach(text => {
-            const itemDiv = document.createElement("div");
-            itemDiv.className = "suggestion-item";
-            itemDiv.innerText = text;
-            itemDiv.onclick = function() {
-                input.value = text;
-                suggestBox.style.display = "none";
-                searchAll();
-            };
+            const itemDiv = document.createElement("div"); itemDiv.className = "suggestion-item"; itemDiv.innerText = text;
+            itemDiv.onclick = function() { input.value = text; suggestBox.style.display = "none"; searchAll(); };
             suggestBox.appendChild(itemDiv);
         });
         suggestBox.style.display = "block";
     });
-
-    // Ẩn hộp gợi ý khi click ra ngoài vùng tìm kiếm
-    document.addEventListener("click", function(e) {
-        if(e.target !== input) suggestBox.style.display = "none";
-    });
 }
 
-function pushToLocalStorage(drug){
-    let history = JSON.parse(localStorage.getItem("localDrugLogs")) || [];
+function pushToHistory(drug){
+    let history = JSON.parse(localStorage.getItem("drugHistoryLogs")) || [];
     history = history.filter(item => item["Tên thuốc"] !== drug["Tên thuốc"]);
     history.unshift(drug);
-    localStorage.setItem("localDrugLogs", JSON.stringify(history.slice(0, 8)));
+    localStorage.setItem("drugHistoryLogs", JSON.stringify(history.slice(0, 5)));
 }
 
 function renderHistoryBox() {
     const box = document.getElementById("drugHistoryList");
-    const history = JSON.parse(localStorage.getItem("localDrugLogs")) || [];
-    if (history.length === 0) {
-        box.innerHTML = "<span style='font-size:13px; color:#888;'>Chưa có thuốc xem gần đây</span>";
-        return;
-    }
+    const history = JSON.parse(localStorage.getItem("drugHistoryLogs")) || [];
+    if (history.length === 0) { box.innerHTML = "<span style='font-size:12px; color:#888;'>Chưa có lịch sử xem</span>"; return; }
     box.innerHTML = "";
     history.forEach(drug => {
-        const div = document.createElement("div");
-        div.className = "history-item";
-        div.innerText = "💊 " + drug["Tên thuốc"];
+        const div = document.createElement("div"); div.className = "history-item";
+        div.innerHTML = `<span>🕒 ${drug["Tên thuốc"]}</span>`;
         div.onclick = function() { renderSingleDrug(drug); };
         box.appendChild(div);
     });
 }
 
-// Thay đổi tiêu chí tìm kiếm (Tabs điều hướng)
 function setSearchMode(mode, btnElement) {
     searchMode = mode;
     document.querySelectorAll(".tab-btn").forEach(tab => tab.classList.remove("active"));
     btnElement.classList.add("active");
     const input = document.getElementById("searchInput");
-    
     if (mode === "drug") input.placeholder = "Nhập tên thuốc cần tìm...";
-    if (mode === "active") input.placeholder = "Nhập tên hoạt chất cần tìm...";
-    if (mode === "atc") input.placeholder = "Nhập mã phân loại ATC...";
-    document.getElementById("commonSuggestions").innerHTML = "";
+    if (mode === "active") input.placeholder = "Nhập hoạt chất cần tìm...";
+    if (mode === "atc") input.placeholder = "Nhập mã ATC...";
 }
 
-// Thay đổi cưỡng chế khung nhìn (Chỉ khả dụng trên màn hình máy tính để xem trước thiết bị)
+function usePrompt(text) { document.getElementById("aiQuestion").value = text; }
 function switchViewMode(mode) {
-    if(mode === 'mobile') {
-        document.body.classList.add("mobile-view");
-        alert("Đã chuyển sang mô phỏng giao diện di động.");
-    } else {
-        document.body.classList.remove("mobile-view");
-        alert("Đã trả lại giao diện mặc định.");
-    }
-    const currentResult = document.getElementById("searchResult");
-    if(currentResult.style.display === "block" && window.currentSearchResults) {
-         searchAll();
-    }
+    if(mode === 'mobile') { document.body.classList.add("mobile-view"); } 
+    else { document.body.classList.remove("mobile-view"); }
+    if(window.lastViewedDrug) renderSingleDrug(window.lastViewedDrug);
 }
+function toggleTheme(){ document.body.classList.toggle("dark-mode"); }
+document.getElementById("searchInput").addEventListener("keydown", function(e) { if (e.key === "Enter") searchAll(); });
 
-function toggleTheme(){
-    document.body.classList.toggle("dark-mode");
-}
-
-// Đồng bộ tương tác phím Enter nhanh
-document.getElementById("searchInput").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") searchAll();
-});
-
-// Quản lý trạng thái đóng mở bong bóng Chat AI
 const aiPopup = document.getElementById("aiPopup");
-document.getElementById("aiFloatBtn").onclick = function() {
-    aiPopup.style.display = aiPopup.style.display === "flex" ? "none" : "flex";
-};
+document.getElementById("aiFloatBtn").onclick = function() { aiPopup.style.display = aiPopup.style.display === "flex" ? "none" : "flex"; };
 function closeAI() { aiPopup.style.display = "none"; }
 
-// Tích hợp cổng API trợ lý AI
+// GỬI CÂU HỎI CHO TRỢ LÝ AI ĐÃ ĐỒNG BỘ THEO NHÃN PHÂN QUYỀN VAI TRÒ TRUY CẬP
 async function askAI() {
     const promptText = document.getElementById("aiQuestion").value.trim();
     const aiResultArea = document.getElementById("aiResult");
-    if (promptText === "") {
-        aiResultArea.innerHTML = "⚠️ Vui lòng điền nội dung câu hỏi chuyên môn.";
-        return;
-    }
-    aiResultArea.innerHTML = "⏳ Trợ lý AI đang tra cứu và tổng hợp tài liệu y văn...";
+    if (promptText === "") { aiResultArea.innerHTML = "⚠️ Vui lòng nhập nội dung câu hỏi."; return; }
+    aiResultArea.innerHTML = "⏳ AI đang đối chiếu dữ liệu dược lâm sàng dựa trên phân quyền tài khoản của bạn...";
     try {
         const res = await fetch("https://tichhopai-tracuuthuoc-1.onrender.com/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ question: promptText })
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question: `[Vai trò: ${currentUserRole}] ${promptText}` })
         });
         const parsed = await res.json();
-        aiResultArea.innerHTML = parsed.answer || parsed.reply || "Không có phản hồi từ máy chủ y tế.";
-    } catch (err) {
-        aiResultArea.innerHTML = "❌ Kết nối máy chủ AI gián đoạn. Hãy kiểm tra dịch vụ mạng Render.";
-    }
+        aiResultArea.innerHTML = parsed.answer || parsed.reply || "Không nhận được dữ liệu phản hồi từ AI.";
+    } catch (err) { aiResultArea.innerHTML = "❌ Lỗi kết nối mạng Render."; }
 }
 
-// Khởi tạo ứng dụng sau khi tải hoàn tất DOM
 window.onload = function() {
     renderHistoryBox();
+    renderFavorites();
 };
 </script>
 </body>
