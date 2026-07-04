@@ -3,7 +3,7 @@
 <head> 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cổng thông tin Y tế Số & Trợ lý Phân tích Dược lâm sàng Quốc gia (V12-AI Pro)</title>
+<title>Cổng thông tin Y tế Số & Trợ lý Phân tích Dược lâm sàng Quốc gia </title>
 
 <style>
 :root {
@@ -236,7 +236,7 @@ footer{ background: var(--primary-dark); color:white; text-align:center; padding
             <button class="role-btn" onclick="selectRole('doctor')">
                 <span class="role-icon">🩺</span>
                 <div class="role-text">
-                    <b>Hội đồng Chuyên môn / Nhân viên Y tế (Quyền V12)</b>
+                    <b>Hội đồng Chuyên môn / Nhân viên Y tế </b>
                     <span>Kích hoạt Giỏ kiểm tra tương tác thuốc động, Cảnh báo lâm sàng đa tầng chuyên sâu.</span>
                 </div>
             </button>
@@ -256,7 +256,7 @@ footer{ background: var(--primary-dark); color:white; text-align:center; padding
 <header id="top-header">
     <div class="logo"><img src="images/logo.png" alt="Logo" onerror="this.src='https://placehold.co/100x100/00796b/white?text=Y+Tế'"></div>
     <h1>DANH MỤC DƯỢC QUỐC GIA LIÊN THÔNG BỆNH VIỆN</h1>
-    <p class="sub-title">Nền tảng chuẩn hóa dữ liệu khám chữa bệnh & Đồng chi trả Bảo hiểm Y tế (Phiên Bản V12-AI Pro)</p>
+    <p class="sub-title">Nền tảng chuẩn hóa dữ liệu khám chữa bệnh & Đồng chi trả Bảo hiểm Y tế </p>
     
     <div>
         <span id="roleDisplayTag" class="user-status-tag">Vai trò: Khách</span>
@@ -475,7 +475,7 @@ function selectRole(role) {
     const citizenScan = document.getElementById("citizenScanSection");
 
     if(role === 'doctor') {
-        displayTag.innerText = "🩺 Vai trò: Nhân viên Y tế / Bác sĩ (V12)";
+        displayTag.innerText = "🩺 Vai trò: Nhân viên Y tế / Bác sĩ ";
         displayTag.style.background = "#2e7d32";
         docCart.style.display = "block";
         citizenScan.style.display = "none";
@@ -633,15 +633,15 @@ function runClinicalCrossAlertEngine() {
     }
 
     if(hasClopidogrel && hasEsomeprazole) {
-        crossAlerts.push("🔴 [CẢNH BÁO NGUY KỊCH V12]: Phát hiện tương tác nghiêm trọng giữa Clopidogrel và Esomeprazole (Cạnh tranh mạnh enzym CYP2C19 làm tụt hiệu năng chống đông mạch vành). Khuyến cáo thay thế sang Pantoprazole.");
+        crossAlerts.push("🔴 [CẢNH BÁO NGUY KỊCH ]: Phát hiện tương tác nghiêm trọng giữa Clopidogrel và Esomeprazole (Cạnh tranh mạnh enzym CYP2C19 làm tụt hiệu năng chống đông mạch vành). Khuyến cáo thay thế sang Pantoprazole.");
         isCriticalV12 = true;
     }
     if(crcl === "renal" && hasMetformin) {
-        crossAlerts.push("🔴 [KHÓA ĐỘC TÍNH PHÂN TỬ V12]: Chức năng thận suy giảm nặng (CrCl &lt; 30ml/phút) chống chỉ định tuyệt đối với Metformin do nguy cơ tích lũy sinh học gây nhiễm toan lactic tử vong.");
+        crossAlerts.push("🔴 [KHÓA ĐỘC TÍNH PHÂN TỬ ]: Chức năng thận suy giảm nặng (CrCl &lt; 30ml/phút) chống chỉ định tuyệt đối với Metformin do nguy cơ tích lũy sinh học gây nhiễm toan lactic tử vong.");
         isCriticalV12 = true;
     }
     if(allergy === "penicillin" && hasAmoxicillin) {
-        crossAlerts.push("🟡 [MÀNG LỌC DỊ ỨNG CHÉO V12]: Phát hiện bệnh nhân có tiền sử dị ứng cấu trúc Beta-lactam core, trùng với kháng sinh nhóm Penicillin (Amoxicillin) đang được kê đơn.");
+        crossAlerts.push("🟡 [MÀNG LỌC DỊ ỨNG CHÉO ]: Phát hiện bệnh nhân có tiền sử dị ứng cấu trúc Beta-lactam core, trùng với kháng sinh nhóm Penicillin (Amoxicillin) đang được kê đơn.");
     }
 
     if(crossAlerts.length > 0) {
@@ -650,7 +650,7 @@ function runClinicalCrossAlertEngine() {
             banner.innerHTML = crossAlerts.join("<br>") + `
                 <div class="override-box">
                     <input type="text" id="v12OverrideReason" placeholder="Nhập lý do lâm sàng bắt buộc để kích hoạt Smart Override...">
-                    <button class="btn-action btn-add-cart" style="width:100%; font-size:12px; padding:6px;" onclick="executeV12Override()">✍️ PHÊ DUYỆT & KÝ SỐ VƯỢT QUYỀN LÂM SÀNG V12</button>
+                    <button class="btn-action btn-add-cart" style="width:100%; font-size:12px; padding:6px;" onclick="executeV12Override()">✍️ PHÊ DUYỆT & KÝ SỐ VƯỢT QUYỀN LÂM SÀNG </button>
                 </div>
             `;
         } else {
@@ -660,7 +660,7 @@ function runClinicalCrossAlertEngine() {
         banner.style.display = "block";
     } else if(internalCart.length >= 2) {
         banner.className = "card-alert alert-success";
-        banner.innerHTML = "✨ [AI PHÂN TÍCH CHUYÊN MÔN V12] Chưa phát hiện tương tác chéo lâm sàng bất lợi nguy hiểm nào giữa các hoạt chất trong ma trận giỏ phối hợp hiện tại.";
+        banner.innerHTML = "✨ [AI PHÂN TÍCH CHUYÊN MÔN ] Chưa phát hiện tương tác chéo lâm sàng bất lợi nguy hiểm nào giữa các hoạt chất trong ma trận giỏ phối hợp hiện tại.";
         banner.style.display = "block";
     } else {
         banner.style.display = "none";
@@ -670,10 +670,10 @@ function runClinicalCrossAlertEngine() {
 function executeV12Override() {
     const reason = document.getElementById("v12OverrideReason").value.trim();
     if(reason === "") {
-        alert("🔴 Hệ thống V12 từ chối: Bác sĩ bắt buộc phải nhập lý do lâm sàng hợp lệ để ghi nhận vào trục bệnh án điện tử quốc gia trước khi ký số vượt quyền!");
+        alert("🔴 Hệ thống  từ chối: Bác sĩ bắt buộc phải nhập lý do lâm sàng hợp lệ để ghi nhận vào trục bệnh án điện tử quốc gia trước khi ký số vượt quyền!");
         return;
     }
-    alert(`📝 KHÁM PHÁ TRẦN CÔNG NGHỆ V12 THÀNH CÔNG!\nY lệnh vượt quyền với lý do: "${reason}" đã được liên thông mã hóa pháp lý lên trục dữ liệu trung ương.`);
+    alert(`📝 KHÁM PHÁ TRẦN CÔNG NGHỆ  THÀNH CÔNG!\nY lệnh vượt quyền với lý do: "${reason}" đã được liên thông mã hóa pháp lý lên trục dữ liệu trung ương.`);
 }
 
 // 5. NÂNG CẤP TÍNH NĂNG MÔ PHỎNG AI MULTI-MODAL VISION SCAN ĐƠN THUỐC VIẾT TAY
@@ -687,7 +687,7 @@ function simulateAIScan() {
     if(hospital === "choray") hospText = "Bệnh viện Chợ Rẫy";
     if(hospital === "tw108") hospText = "Bệnh viện 108";
 
-    banner.innerHTML = `⏳ <b>[AI Multi-Modal Engine v12]</b> Đang số hóa hình ảnh, định vị tập dữ liệu thói quen chữ viết bác sĩ tại <b>${hospText}</b> và tiến hành sửa lỗi, chuẩn hóa tự động hoạt chất...`;
+    banner.innerHTML = `⏳ <b>[AI Multi-Modal Engine ]</b> Đang số hóa hình ảnh, định vị tập dữ liệu thói quen chữ viết bác sĩ tại <b>${hospText}</b> và tiến hành sửa lỗi, chuẩn hóa tự động hoạt chất...`;
     banner.style.display = "block";
     
     setTimeout(() => {
